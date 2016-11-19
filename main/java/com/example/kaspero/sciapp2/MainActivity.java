@@ -102,7 +102,22 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
-    public static void openChoosePhotoFragment(){
+    public static void openChoosePhotoFragment(FragmentManager fragmentManager){
         //TODO ADD NEW FRAGMENT TO ACTIVITY ChoosePhotoFragment
+
+        Fragment newChoosePhotoFragment = new ChoosePhotoFragment();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fragment_container,newChoosePhotoFragment).addToBackStack(null).commit();
+
     }
+
+    /**
+     * This fuction is temple of open item from menu
+     * @param fragmentManager
+     */
+    public static void openItemFromMenu(FragmentManager fragmentManager){
+
+    }
+
+
 }

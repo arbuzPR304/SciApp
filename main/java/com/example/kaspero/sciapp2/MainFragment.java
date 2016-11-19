@@ -3,6 +3,7 @@ package com.example.kaspero.sciapp2;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +55,8 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         Button btn = (Button)v;
 
         if(btn == chooseBtn){
-            MainActivity.openChoosePhotoFragment();
+            FragmentManager fragmentManager = getFragmentManager();
+            MainActivity.openChoosePhotoFragment(fragmentManager);
         }
 
     }
