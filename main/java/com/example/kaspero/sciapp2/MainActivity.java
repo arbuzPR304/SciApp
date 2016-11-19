@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import java.io.File;
@@ -22,7 +23,8 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity{
 
-    String mCurrentPhotoPath;
+    private String mCurrentPhotoPath;
+    private FragmentManager manager;
 
     private File createImageFile() throws IOException {
         // Create an image file name
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity{
         setSupportActionBar(toolbar);
 
 
-        FragmentManager manager = getSupportFragmentManager();
+        manager = getSupportFragmentManager();
         Fragment fragment = manager.findFragmentById(R.id.fragment_container);
 
 
@@ -97,5 +99,10 @@ public class MainActivity extends AppCompatActivity{
 
             }
         });
+    }
+
+
+    public static void openChoosePhotoFragment(){
+        //TODO ADD NEW FRAGMENT TO ACTIVITY ChoosePhotoFragment
     }
 }
