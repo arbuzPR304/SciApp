@@ -1,18 +1,41 @@
 package com.example.kaspero.sciapp2;
 
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 
-public class ChoosePhotoFragment extends Fragment {
+import java.io.IOException;
 
-    private TabHost tabHost;
+import static android.R.attr.button;
+import static android.R.attr.color;
+import static android.app.Activity.RESULT_OK;
+import static com.example.kaspero.sciapp2.R.id.fab;
+
+public class ChoosePhotoFragment extends Fragment implements View.OnClickListener {
+
+    private static int RESULT_LOAD_IMAGE = 1;
+
+    private RelativeLayout imageContainer;
+    private Button buttonLoadPhoto;
+    private ImageView imageView;
+
+
 
 
     public ChoosePhotoFragment() {
@@ -39,12 +62,55 @@ public class ChoosePhotoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_choose_photo, container, false);
 
+        buttonLoadPhoto = (Button)view.findViewById(R.id.chooseGalleryBtn);
+        buttonLoadPhoto.setOnClickListener(this);
 
-        tabHost = (TabHost)view.findViewById(R.id.tabHost);
-        tabHost.addTab(tabHost.newTabSpec("Galeria").setIndicator("Galeria"));
-        tabHost.addTab(tabHost.newTabSpec("Galeria").setIndicator("Galeria"));
+        imageView = (ImageView)view.findViewById(R.id.photoGaleryView);
+
+        imageContainer = (RelativeLayout)view.findViewById(R.id.imagecontainer);
+
+
 
         return view;
     }
+
+    @Override
+    public void onClick(View v) {
+        Button btn = (Button)v;
+        if (btn == buttonLoadPhoto){
+            galleryIntent();
+        }
+    }
+
+    private void galleryIntent()
+    {
+
+        Intent i = new Intent(
+                Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, RESULT_LOAD_IMAGE);
+
+    }
+
+
+    public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+        switch(requestCode) {
+            case 0:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    imageView.setImageURI(selectedImage);
+                }
+
+                break;
+            case 1:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    imageContainer.setBackgroundColor(Color.BLACK);
+                    imageView.setImageURI(selectedImage);
+                }
+                break;
+        }
+    }
+
 
 }
