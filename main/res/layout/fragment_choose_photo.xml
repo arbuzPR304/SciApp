@@ -44,7 +44,7 @@
         <Button
             android:text="PRZEJDŻ DO EDYCJI"
             android:id="@+id/editBtn"
-            android:background="@drawable/herro_button"
+            android:background="@drawable/disactive"
             android:layout_gravity="center"
             android:textColor="#FAC740"
             android:drawableLeft="@drawable/item_not_selected"
@@ -62,13 +62,17 @@
     </LinearLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="470dp"
+                android:layout_height="match_parent"
                 android:id="@+id/imagecontainer">
-                        <ImageView
-                            android:id="@+id/photoGaleryView"
-                            android:layout_width="match_parent"
-                            android:src="@android:drawable/ic_menu_camera"
-                            android:layout_height="400dp"></ImageView>
+
+                <ImageView
+                    android:id="@+id/photoGaleryView"
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"></ImageView>
             </RelativeLayout>
         </LinearLayout>
 
