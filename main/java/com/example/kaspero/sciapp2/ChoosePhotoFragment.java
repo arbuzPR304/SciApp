@@ -20,14 +20,17 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+
+import static android.R.id.message;
 import static android.app.Activity.RESULT_OK;
 import static android.bluetooth.BluetoothClass.Service.CAPTURE;
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 
 public class ChoosePhotoFragment extends Fragment implements View.OnClickListener {
     // CONST VAR FOR TAKING PHOTO
+    public final static String EXTRA_URI = "com.example.SciApp2.URI";
     private final int RESULT_LOAD_IMAGE = 1;
-
     private RelativeLayout imageContainer;
     private Button buttonLoadPhoto,buttonEditPhoto;
     private ImageView imageView;
@@ -85,8 +88,16 @@ public class ChoosePhotoFragment extends Fragment implements View.OnClickListene
             }
         }
         if(btn == buttonEditPhoto){
-            //TODO EDIT PHOTO
+            openEditMode();
         }
+    }
+    public void openEditMode(){
+        Intent intent = new Intent(getActivity(),EditActivity.class);
+        intent.putExtra(EXTRA_URI, contentURI);
+        startActivity(intent);
+
+
+
     }
 
     // OPEN GALLERY INTENT
