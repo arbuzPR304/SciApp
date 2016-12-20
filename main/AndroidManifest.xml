@@ -16,15 +16,14 @@
             android:configChanges="orientation"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -39,15 +38,11 @@
         <activity
             android:name=".EditActivity"
             android:configChanges="orientation"
-            android:label="@string/app_name"
+            android:label="@string/title_activity_edit"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.EDIT" />
-            </intent-filter>
+            android:theme="@style/AppTheme.NoActionBar"
+            >
         </activity>
-
     </application>
 
 </manifest>

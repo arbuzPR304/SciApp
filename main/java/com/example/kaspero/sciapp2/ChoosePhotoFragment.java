@@ -93,7 +93,7 @@ public class ChoosePhotoFragment extends Fragment implements View.OnClickListene
     }
     public void openEditMode(){
         Intent intent = new Intent(getActivity(),EditActivity.class);
-        intent.putExtra(EXTRA_URI, contentURI);
+        intent.putExtra(EXTRA_URI, contentURI.toString());
         startActivity(intent);
 
 
