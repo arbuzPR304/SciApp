@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,9 +16,24 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
+import org.opencv.android.Utils;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
+
 import java.io.Console;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+
+import static android.R.attr.bitmap;
+import static android.R.attr.value;
+import static com.example.kaspero.sciapp2.EditActivity.LibsComputerVision.OPENCV;
+import static com.example.kaspero.sciapp2.R.id.intentPhoto;
+import static org.opencv.imgcodecs.Imgcodecs.imread;
+import static org.opencv.imgproc.Imgproc.COLOR_BGR2HSV;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -43,6 +59,19 @@ public class EditActivity extends AppCompatActivity {
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler mHideHandler = new Handler();
     private View mContentView;
+    private Color color = new Color();
+
+    public enum LibsComputerVision {OPENCV,BOOF};
+
+
+    /**
+     * VARIABLES
+     * */
+    private Bitmap editPhoto;
+    private Mat imageMat;
+    private ImageView intentPhoto;
+    private LibsComputerVision libsComputerVision = OPENCV;
+
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -93,6 +122,62 @@ public class EditActivity extends AppCompatActivity {
             return false;
         }
     };
+//    hsv_min--> (106,60,90)
+//    hsv_max-->(124,255,255)
+    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
+        @Override
+        public void onManagerConnected(int status) {
+            switch (status) {
+                case LoaderCallbackInterface.SUCCESS:
+                {
+                    Log.i("OpenCV", "OpenCV loaded successfully");
+/**                  INIT OF THE MATRIX           */
+                    imageMat=new Mat();
+                    Mat HSV = new Mat();
+                    Mat threshold=new Mat();
+                    Utils.bitmapToMat(editPhoto,imageMat);
+
+
+/**                  decode imageMat into HSV [RGBA to HSV]           */
+
+                    Imgproc.cvtColor(imageMat,HSV,Imgproc.COLOR_BGR2HSV);
+                    Bitmap result = Bitmap.createBitmap(HSV.cols(),HSV.rows(), Bitmap.Config.ARGB_8888);
+
+/**                  decode HSV into HSV [HSV to RGBA]
+ *                  and set it in to imageView */
+
+                    Imgproc.cvtColor(HSV,HSV,Imgproc.COLOR_HSV2BGR);
+                    Utils.matToBitmap(HSV,result);
+                    intentPhoto.setImageBitmap(result);
+
+                } break;
+                default:
+                {
+                    super.onManagerConnected(status);
+                } break;
+            }
+        }
+    };
+
+    public void onResume()
+    {
+        color.rgb(184,47,101);
+        super.onResume();
+
+        switch (libsComputerVision) {
+            case OPENCV:
+                if (!OpenCVLoader.initDebug()) {
+                    Log.d("OpenCV", "Internal OpenCV library not found. Using OpenCV Manager for initialization");
+                    OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mLoaderCallback);
+                } else {
+                    Log.d("OpenCV", "OpenCV library found inside package. Using it!");
+                    mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+                }
+             break;
+            case BOOF:
+                break;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +189,7 @@ public class EditActivity extends AppCompatActivity {
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
-        ImageView intentPhoto = (ImageView) findViewById(R.id.intentPhoto);
+        intentPhoto = (ImageView) findViewById(R.id.intentPhoto);
         Intent intent = getIntent();
         Uri myUri = Uri.parse(intent.getStringExtra(ChoosePhotoFragment.EXTRA_URI));
 
@@ -117,11 +202,7 @@ public class EditActivity extends AppCompatActivity {
         }
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize=4;
-        Bitmap editPhoto = BitmapFactory.decodeStream(in,null,options);
-        intentPhoto.setImageBitmap(editPhoto);
-
-
-
+        editPhoto = BitmapFactory.decodeStream(in,null,options);
 
 
         // Set up the user interaction to manually show or hide the system UI.
