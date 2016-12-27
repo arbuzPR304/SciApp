@@ -16,6 +16,7 @@ import android.view.View;
 
 import com.example.kaspero.sciapp2.Fragments.ChoosePhotoFragment;
 import com.example.kaspero.sciapp2.Fragments.MainFragment;
+import com.example.kaspero.sciapp2.Options.Options;
 import com.example.kaspero.sciapp2.R;
 
 import java.io.File;
@@ -81,6 +82,8 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Options.getInstance().loadOptions(this);
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.sciAppTools);

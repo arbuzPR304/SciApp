@@ -19,9 +19,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.example.kaspero.sciapp2.Options.Options;
 import com.example.kaspero.sciapp2.R;
-
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
@@ -33,7 +34,7 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import static com.example.kaspero.sciapp2.Activity.EditActivity.LibsComputerVision.OPENCV;
+import static com.example.kaspero.sciapp2.Options.Options.LibsComputerVision.OPENCV;
 import static org.opencv.imgproc.Imgproc.GaussianBlur;
 
 /**
@@ -69,8 +70,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-    public enum LibsComputerVision {OPENCV,BOOF};
-    private LibsComputerVision libsComputerVision = OPENCV;
+//    public enum LibsComputerVision {OPENCV,BOOF};
+    private Options.LibsComputerVision libsComputerVision = OPENCV;
     /** SHOW AND HIDE fullscreen_content_controls */
 
     private final Runnable mHidePart2Runnable = new Runnable() {
@@ -125,7 +126,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_edit);
 
         mVisible = true;
