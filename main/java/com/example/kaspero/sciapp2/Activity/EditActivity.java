@@ -1,4 +1,4 @@
-package com.example.kaspero.sciapp2;
+package com.example.kaspero.sciapp2.Activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -19,6 +19,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import com.example.kaspero.sciapp2.R;
+
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
@@ -30,7 +33,7 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import static com.example.kaspero.sciapp2.EditActivity.LibsComputerVision.OPENCV;
+import static com.example.kaspero.sciapp2.Activity.EditActivity.LibsComputerVision.OPENCV;
 import static org.opencv.imgproc.Imgproc.GaussianBlur;
 
 /**
@@ -65,6 +68,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private boolean mVisible;
 
 
+
     public enum LibsComputerVision {OPENCV,BOOF};
     private LibsComputerVision libsComputerVision = OPENCV;
     /** SHOW AND HIDE fullscreen_content_controls */
@@ -89,6 +93,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private final Runnable mShowPart2Runnable = new Runnable() {
         @Override
         public void run() {
+
             // Delayed display of UI elements
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {

@@ -1,4 +1,4 @@
-package com.example.kaspero.sciapp2;
+package com.example.kaspero.sciapp2.Fragments;
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -11,20 +11,20 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import com.example.kaspero.sciapp2.Activity.EditActivity;
+import com.example.kaspero.sciapp2.R;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-import static android.R.id.message;
 import static android.app.Activity.RESULT_OK;
-import static android.bluetooth.BluetoothClass.Service.CAPTURE;
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 
 public class ChoosePhotoFragment extends Fragment implements View.OnClickListener {

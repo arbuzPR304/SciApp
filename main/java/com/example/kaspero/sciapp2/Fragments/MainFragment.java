@@ -1,17 +1,16 @@
-package com.example.kaspero.sciapp2;
+package com.example.kaspero.sciapp2.Fragments;
 
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import static com.example.kaspero.sciapp2.ChoosePhotoFragment.EXTRA_URI;
+import com.example.kaspero.sciapp2.Activity.EditActivity;
+import com.example.kaspero.sciapp2.R;
 
 
 /**

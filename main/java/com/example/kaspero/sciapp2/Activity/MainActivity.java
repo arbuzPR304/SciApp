@@ -1,4 +1,4 @@
-package com.example.kaspero.sciapp2;
+package com.example.kaspero.sciapp2.Activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -12,8 +12,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
+
+import com.example.kaspero.sciapp2.Fragments.ChoosePhotoFragment;
+import com.example.kaspero.sciapp2.Fragments.MainFragment;
+import com.example.kaspero.sciapp2.R;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +28,11 @@ public class MainActivity extends AppCompatActivity{
 
     private String mCurrentPhotoPath;
     private FragmentManager manager;
+    static final int REQUEST_TAKE_PHOTO = 1;
+
+
+/**
+ * CREATE IMAGE FILE  */
 
     private File createImageFile() throws IOException {
         // Create an image file name
@@ -43,8 +51,8 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
-    static final int REQUEST_TAKE_PHOTO = 1;
-
+    /**
+     * CREATE PHOTO MAKE INTENT  */
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
@@ -67,7 +75,9 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
-
+/**
+ * ONCREATE HERE SET UP MAIN FRAGMENT
+ * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,34 +86,29 @@ public class MainActivity extends AppCompatActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.sciAppTools);
         setSupportActionBar(toolbar);
 
-
         manager = getSupportFragmentManager();
         Fragment fragment = manager.findFragmentById(R.id.fragment_container);
 
-
         if(fragment == null){
             fragment = new MainFragment();
-            FragmentTransaction transaction = manager.beginTransaction();           /// WAY A
+            FragmentTransaction transaction = manager.beginTransaction();
             transaction.add(R.id.fragment_container, fragment);
             transaction.commit();
         }
-
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO MAKING PHOTO
-
                 dispatchTakePictureIntent();
-
             }
         });
     }
 
-
+    /**
+     * FOR OPEN CHOOSE PHOTO FRAGMENT
+     */
     public static void openChoosePhotoFragment(FragmentManager fragmentManager){
-        //TODO ADD NEW FRAGMENT TO ACTIVITY ChoosePhotoFragment
 
         Fragment newChoosePhotoFragment = new ChoosePhotoFragment();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
