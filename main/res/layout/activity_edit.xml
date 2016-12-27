@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/intentPhoto"
-        android:padding="5dp" />
+        android:padding="0dp" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -44,33 +44,47 @@
             android:weightSum="4">
 
             <Button
-                android:id="@+id/search"
+                android:text="@string/edit_button_option"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/optionBtn"
+                android:layout_weight="1"
+                android:background="@drawable/herro_button"
+                android:textColor="#FAC740"
+                android:layout_margin="3dp"/>
+            <Button
+                android:text="@string/edit_button_load"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/loadBtn"
+                android:layout_weight="1"
+                android:background="@drawable/herro_button"
+                android:textColor="#FAC740"
+                android:layout_margin="3dp"/>
+
+            <Button
+                android:id="@+id/searchBtn"
                 style="?metaButtonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/edit_button_search" />
+                android:text="@string/edit_button_search"
+                android:background="@drawable/herro_button"
+                android:textColor="#FAC740"
+                android:layout_margin="3dp"/>
 
             <Button
                 android:text="@string/edit_button_info"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/INFO"
-                android:layout_weight="1" />
+                android:id="@+id/infoBtn"
+                android:layout_weight="1"
+                android:background="@drawable/disactive"
+                android:textColor="#FAC740"
+                android:layout_margin="3dp"/>
 
-            <Button
-                android:text="@string/edit_button_option"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/button2"
-                android:layout_weight="1" />
 
-            <Button
-                android:text="@string/edit_button_safe"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/button3"
-                android:layout_weight="1" />
+
         </LinearLayout>
 
     </FrameLayout>

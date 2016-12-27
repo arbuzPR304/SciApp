@@ -1,12 +1,15 @@
 package com.example.kaspero.sciapp2;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,42 +17,29 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
-
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
-import org.opencv.core.CvType;
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
-
-import java.io.Console;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-
-import static android.R.attr.bitmap;
-import static android.R.attr.value;
 import static com.example.kaspero.sciapp2.EditActivity.LibsComputerVision.OPENCV;
-import static com.example.kaspero.sciapp2.R.id.intentPhoto;
-import static org.opencv.imgcodecs.Imgcodecs.imread;
-import static org.opencv.imgproc.Imgproc.COLOR_BGR2HSV;
+import static org.opencv.imgproc.Imgproc.GaussianBlur;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class EditActivity extends AppCompatActivity {
-    /**
-     * Whether or not the system UI should be auto-hidden after
-     * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
-     */
-    private static final boolean AUTO_HIDE = true;
+public class EditActivity extends AppCompatActivity implements View.OnClickListener{
 
-    /**
-     * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
-     * user interaction before hiding the system UI.
-     */
+    private static final boolean AUTO_HIDE = true;
     private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
 
     /**
@@ -59,18 +49,25 @@ public class EditActivity extends AppCompatActivity {
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler mHideHandler = new Handler();
     private View mContentView;
-    private Color color = new Color();
-
-    public enum LibsComputerVision {OPENCV,BOOF};
-
 
     /**
      * VARIABLES
      * */
-    private Bitmap editPhoto;
+    private final int RESULT_LOAD_IMAGE = 1;
+    private Uri contentURI=null;
+    private boolean SEARCH_BUTTON = false;
+    private Bitmap editPhoto = null;
+    private Bitmap editPhotoLast = null;
     private Mat imageMat;
+    private Button optionButton,searchButton,infoButton,loadButton;
     private ImageView intentPhoto;
+    private View mControlsView;
+    private boolean mVisible;
+
+
+    public enum LibsComputerVision {OPENCV,BOOF};
     private LibsComputerVision libsComputerVision = OPENCV;
+    /** SHOW AND HIDE fullscreen_content_controls */
 
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
@@ -89,7 +86,6 @@ public class EditActivity extends AppCompatActivity {
                     | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         }
     };
-    private View mControlsView;
     private final Runnable mShowPart2Runnable = new Runnable() {
         @Override
         public void run() {
@@ -99,20 +95,16 @@ public class EditActivity extends AppCompatActivity {
                 actionBar.show();
             }
             mControlsView.setVisibility(View.VISIBLE);
+
         }
     };
-    private boolean mVisible;
     private final Runnable mHideRunnable = new Runnable() {
         @Override
         public void run() {
             hide();
         }
     };
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
+
     private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -122,62 +114,8 @@ public class EditActivity extends AppCompatActivity {
             return false;
         }
     };
-//    hsv_min--> (106,60,90)
-//    hsv_max-->(124,255,255)
-    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
-        @Override
-        public void onManagerConnected(int status) {
-            switch (status) {
-                case LoaderCallbackInterface.SUCCESS:
-                {
-                    Log.i("OpenCV", "OpenCV loaded successfully");
-/**                  INIT OF THE MATRIX           */
-                    imageMat=new Mat();
-                    Mat HSV = new Mat();
-                    Mat threshold=new Mat();
-                    Utils.bitmapToMat(editPhoto,imageMat);
 
-
-/**                  decode imageMat into HSV [RGBA to HSV]           */
-
-                    Imgproc.cvtColor(imageMat,HSV,Imgproc.COLOR_BGR2HSV);
-                    Bitmap result = Bitmap.createBitmap(HSV.cols(),HSV.rows(), Bitmap.Config.ARGB_8888);
-
-/**                  decode HSV into HSV [HSV to RGBA]
- *                  and set it in to imageView */
-
-                    Imgproc.cvtColor(HSV,HSV,Imgproc.COLOR_HSV2BGR);
-                    Utils.matToBitmap(HSV,result);
-                    intentPhoto.setImageBitmap(result);
-
-                } break;
-                default:
-                {
-                    super.onManagerConnected(status);
-                } break;
-            }
-        }
-    };
-
-    public void onResume()
-    {
-        color.rgb(184,47,101);
-        super.onResume();
-
-        switch (libsComputerVision) {
-            case OPENCV:
-                if (!OpenCVLoader.initDebug()) {
-                    Log.d("OpenCV", "Internal OpenCV library not found. Using OpenCV Manager for initialization");
-                    OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mLoaderCallback);
-                } else {
-                    Log.d("OpenCV", "OpenCV library found inside package. Using it!");
-                    mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
-                }
-             break;
-            case BOOF:
-                break;
-        }
-    }
+    /** END SHOW AND HIDE fullscreen_content_controls */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -189,20 +127,14 @@ public class EditActivity extends AppCompatActivity {
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
-        intentPhoto = (ImageView) findViewById(R.id.intentPhoto);
-        Intent intent = getIntent();
-        Uri myUri = Uri.parse(intent.getStringExtra(ChoosePhotoFragment.EXTRA_URI));
+        optionButton = (Button)findViewById(R.id.optionBtn);
+        loadButton = (Button)findViewById(R.id.loadBtn);
+        searchButton = (Button)findViewById(R.id.searchBtn);
+        infoButton = (Button)findViewById(R.id.infoBtn);
 
-        ContentResolver cr = this.getContentResolver();
-        InputStream in = null;
-        try {
-            in = cr.openInputStream(myUri);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize=4;
-        editPhoto = BitmapFactory.decodeStream(in,null,options);
+
+
+        intentPhoto = (ImageView) findViewById(R.id.intentPhoto);
 
 
         // Set up the user interaction to manually show or hide the system UI.
@@ -213,21 +145,41 @@ public class EditActivity extends AppCompatActivity {
             }
         });
 
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-        findViewById(R.id.search).setOnTouchListener(mDelayHideTouchListener);
+        optionButton.setOnClickListener(this);
+        loadButton.setOnClickListener(this);
+        searchButton.setOnClickListener(this);
+        infoButton.setOnClickListener(this);
+
+
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-
-        // Trigger the initial hide() shortly after the activity has been
-        // created, to briefly hint to the user that UI controls
-        // are available.
-        delayedHide(100);
+    public void onClick(View v) {
+        Button btn = (Button) v;
+        if(btn == optionButton) {
+            Log.v("DONKEY", "option");
+        }else if(btn == loadButton) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+            {
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},111);
+            }else{
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), RESULT_LOAD_IMAGE);
+                // capture photo on Resume
+            }
+        }else if (btn == searchButton) {
+            if (editPhoto!=null){
+                searchRGB();
+            }
+        }else if (btn == infoButton) {
+            Log.v("DONKEY", "info");
+        }
     }
+
+    /**
+ * ONLY TOGGLE DEF SIMPLY FOR HIDE AND SHOW
+ * */
 
     private void toggle() {
         if (mVisible) {
@@ -261,14 +213,98 @@ public class EditActivity extends AppCompatActivity {
         // Schedule a runnable to display UI elements after a delay
         mHideHandler.removeCallbacks(mHidePart2Runnable);
         mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY);
+
     }
 
-    /**
-     * Schedules a call to hide() in [delay] milliseconds, canceling any
-     * previously scheduled calls.
-     */
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
+
+
+    /** CAPTURE CHOOSEN PHOTO, NEXT TAKING URL, BITMAP IN
+     * TO MEMMORY AND THE AND SET IN IMAGEVIEW*/
+    public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+        switch(requestCode) {
+            case 1:
+                if(resultCode == RESULT_OK){
+                    if(imageReturnedIntent != null){
+                        contentURI = Uri.parse(imageReturnedIntent.getDataString());
+                        ContentResolver cr = this.getContentResolver();
+                        InputStream in = null;
+                        try {
+                            in = cr.openInputStream(contentURI);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        BitmapFactory.Options options = new BitmapFactory.Options();
+                        options.inSampleSize=4;
+                        editPhoto = BitmapFactory.decodeStream(in,null,options);
+                        intentPhoto.setImageBitmap(editPhoto);
+                        if (editPhoto != null) {
+                            final int sdk = android.os.Build.VERSION.SDK_INT;
+                            if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                                searchButton.setBackgroundDrawable( getResources().getDrawable(R.drawable.herro_button) );
+                            } else {
+                                searchButton.setBackground( getResources().getDrawable(R.drawable.herro_button));
+                            }
+                        }
+
+                    }
+                }
+                break;
+        }
+    }
+
+
+    /**RECOGNISE CV LIB [OPEN CV, ..., ...,]*/
+    public void searchRGB()
+    {
+        switch (libsComputerVision) {
+            case OPENCV:
+                if (!OpenCVLoader.initDebug()) {
+                    Log.d("OpenCV", "Internal OpenCV library not found. Using OpenCV Manager for initialization");
+                    OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mLoaderCallback);
+                } else {
+                    Log.d("OpenCV", "OpenCV library found inside package. Using it!");
+                    mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+                }
+                break;
+            case BOOF:
+                //TODO OTHER CV LIB
+                break;
+        }
+    }
+
+    /** OPENCV SEARCH RGB ENGINE*/
+    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
+        @Override
+        public void onManagerConnected(int status) {
+            switch (status) {
+                case LoaderCallbackInterface.SUCCESS:
+                {
+/**                 INIT OF THE MATRIXS           */
+                    imageMat=new Mat();
+                    Mat imageMat=new Mat();
+                    Mat threshold=new Mat();
+                    Utils.bitmapToMat(editPhoto,imageMat);
+/**                 RGB ANDROID BITMAP CONVERT INTO BGR OPENCV COLOR FORMAT
+ *                  NEXT SET SCALAR  BRG VALUE
+ *                  FINALLY GaussianBlur*/
+                    Imgproc.cvtColor(imageMat,imageMat,Imgproc.COLOR_RGB2BGR);
+                    Bitmap result = Bitmap.createBitmap(imageMat.cols(),imageMat.rows(), Bitmap.Config.ARGB_8888);
+                    Core.inRange(imageMat,new Scalar(60, 0, 130),new Scalar(120, 63, 190), threshold);
+                    GaussianBlur(threshold,threshold,new Size(9,9),2,2);
+/**                 SET EVERYTHING INTO IMAGEVIEW*/
+                    Utils.matToBitmap(threshold,result);
+                    intentPhoto.setImageBitmap(result);
+                    editPhoto=null;
+
+                }break;
+            default:
+                {super.onManagerConnected(status);}break;
+            }
+        }
+    };
 }
