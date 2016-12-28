@@ -1,24 +1,13 @@
 package com.example.kaspero.sciapp2.Options;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.XmlResourceParser;
-import android.graphics.Color;
-import android.util.Log;
-
 import com.example.kaspero.sciapp2.R;
-
 import org.xmlpull.v1.XmlPullParser;
-
-import java.io.File;
-import java.io.InputStream;
-
-import static android.R.attr.name;
-import static android.R.attr.x;
-
 
 /**
  * Created by kaspero on 27.12.2016.
+ * Class set options from input and last from xml file
+ *
  */
 public class Options {
     public static enum LibsComputerVision {OPENCV,BOOF};
@@ -83,7 +72,6 @@ public class Options {
 
 /** SETTER */
 
-
     public void setLibsComputerVision(LibsComputerVision libsComputerVision) {
         this.libsComputerVision = libsComputerVision;
     }
@@ -95,8 +83,6 @@ public class Options {
     private int high_R;
     private int high_G;
     private int high_B;
-
-
 
     private int low_R;
     private int low_G;
@@ -116,7 +102,7 @@ public class Options {
     public  void loadOptions(Context context){
         String temp="null";
         String tempName = "null";
-        int hr =0, hg=0, hb=0, lr=1,lg=1,lb=1;
+        int hr =0, hg=0, hb=0, lr=0,lg=0,lb=0;
 
         try{
             XmlResourceParser xpp=context.getResources().getXml(R.xml.lastoptions);
@@ -186,11 +172,10 @@ public class Options {
                 eventType = xpp.next();
             }
 
-
         }catch (Exception e){
             e.printStackTrace();
-
-
+            setHigh_R(hr);setHigh_B(hb);setHigh_G(hg);
+            setLow_B(hb);setLow_G(hg);setLow_R(hr);
             setLibsComputerVision(LibsComputerVision.valueOf("OPENCV"));
             setSaveBitmap(true);
         }

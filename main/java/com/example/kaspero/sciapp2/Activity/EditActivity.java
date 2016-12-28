@@ -34,6 +34,8 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+
+import static com.example.kaspero.sciapp2.Options.Options.LibsComputerVision.BOOF;
 import static com.example.kaspero.sciapp2.Options.Options.LibsComputerVision.OPENCV;
 import static org.opencv.imgproc.Imgproc.GaussianBlur;
 
@@ -69,9 +71,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private boolean mVisible;
 
 
-
-//    public enum LibsComputerVision {OPENCV,BOOF};
-    private Options.LibsComputerVision libsComputerVision = OPENCV;
     /** SHOW AND HIDE fullscreen_content_controls */
 
     private final Runnable mHidePart2Runnable = new Runnable() {
@@ -266,7 +265,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     /**RECOGNISE CV LIB [OPEN CV, ..., ...,]*/
     public void searchRGB()
     {
-        switch (libsComputerVision) {
+        switch (Options.getInstance().getLibsComputerVision()) {
             case OPENCV:
                 if (!OpenCVLoader.initDebug()) {
                     Log.d("OpenCV", "Internal OpenCV library not found. Using OpenCV Manager for initialization");
