@@ -299,7 +299,14 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
  *                  FINALLY GaussianBlur*/
                     Imgproc.cvtColor(imageMat,imageMat,Imgproc.COLOR_RGB2BGR);
                     Bitmap result = Bitmap.createBitmap(imageMat.cols(),imageMat.rows(), Bitmap.Config.ARGB_8888);
-                    Core.inRange(imageMat,new Scalar(60, 0, 130),new Scalar(120, 63, 190), threshold);
+                    Core.inRange(imageMat,
+                            new Scalar(Options.getInstance().getHigh_B(),
+                                    Options.getInstance().getHigh_G(),
+                                    Options.getInstance().getHigh_R()),
+                            new Scalar(Options.getInstance().getLow_B(),
+                                        Options.getInstance().getLow_G(),
+                                        Options.getInstance().getLow_R()),
+                            threshold);
                     GaussianBlur(threshold,threshold,new Size(9,9),2,2);
 /**                 SET EVERYTHING INTO IMAGEVIEW*/
                     Utils.matToBitmap(threshold,result);
