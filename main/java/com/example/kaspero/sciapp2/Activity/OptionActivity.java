@@ -158,6 +158,8 @@ public class OptionActivity extends AppCompatActivity {
                                 Options.getInstance().setSaveBitmap(false);
                             }
 
+                            // TODO DO SAVE INTO XML FILE
+
                             finish();
                         }
                         else

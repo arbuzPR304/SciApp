@@ -1,8 +1,14 @@
 package com.example.kaspero.sciapp2.Options;
 import android.content.Context;
 import android.content.res.XmlResourceParser;
+import android.util.Xml;
+
 import com.example.kaspero.sciapp2.R;
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlSerializer;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 /**
  * Created by kaspero on 27.12.2016.
@@ -90,6 +96,15 @@ public class Options {
 
     private LibsComputerVision libsComputerVision;
     private Boolean saveBitmap;
+    private Boolean onStart = true;
+
+    public Boolean getOnStart() {
+        return onStart;
+    }
+
+    public void setOnStart(Boolean onStart) {
+        this.onStart = onStart;
+    }
 
     private static Options ourInstance = new Options();
     public static Options getInstance() {
@@ -98,6 +113,13 @@ public class Options {
     private Options(){
 
     }
+
+
+    public void writeOptions(Context context){
+            XmlResourceParser fos = context.getResources().getXml(R.xml.lastoptions);
+
+    }
+
 //source https://developer.android.com/reference/org/xmlpull/v1/XmlPullParser.html
     public  void loadOptions(Context context){
         String temp="null";
@@ -180,4 +202,5 @@ public class Options {
             setSaveBitmap(true);
         }
     }
+
 }

@@ -175,7 +175,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             }
         }else if (btn == searchButton) {
             if (editPhoto!=null){
-                searchRGB();
+                searchRGB(editPhoto);
             }
         }else if (btn == infoButton) {
             Log.v("DONKEY", "info");
@@ -264,7 +264,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
 
     /**RECOGNISE CV LIB [OPEN CV, ..., ...,]*/
-    public void searchRGB()
+    public void searchRGB(Bitmap photo)
     {
         switch (Options.getInstance().getLibsComputerVision()) {
             case OPENCV:
@@ -312,7 +312,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 /**                 SET EVERYTHING INTO IMAGEVIEW*/
                     Utils.matToBitmap(threshold,result);
                     intentPhoto.setImageBitmap(result);
-                    editPhoto=null;
+                    editPhotoLast = result;
 
                 }break;
             default:
@@ -321,3 +321,4 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 }
+

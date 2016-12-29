@@ -62,7 +62,7 @@
 
 
         <Button
-            android:text="PRZEGLĄDAJ PRZETWORZONE"
+            android:text="O APLIKACJI"
             android:id="@+id/helpBtn"
             android:background="@drawable/herro_button"
             android:layout_gravity="center"

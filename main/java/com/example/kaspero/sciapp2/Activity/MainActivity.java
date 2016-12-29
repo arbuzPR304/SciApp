@@ -83,7 +83,11 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Options.getInstance().loadOptions(this);
+        if (Options.getInstance().getOnStart()) {
+            Options.getInstance().loadOptions(this);
+            Options.getInstance().setOnStart(false);
+        }
+
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.sciAppTools);
@@ -117,6 +121,8 @@ public class MainActivity extends AppCompatActivity{
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_container,newChoosePhotoFragment).addToBackStack(null).commit();
 
+
+
     }
 
     /**
@@ -129,3 +135,4 @@ public class MainActivity extends AppCompatActivity{
 
 
 }
+//TODO dwie biblioteki, O APLIKACJI MARKER,Marker , ZAPIS DO PLIKU, INFO O EDYCJI, aparat

@@ -3,6 +3,7 @@ package com.example.kaspero.sciapp2.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,9 @@ import com.example.kaspero.sciapp2.Activity.EditActivity;
 import com.example.kaspero.sciapp2.Activity.OptionActivity;
 import com.example.kaspero.sciapp2.R;
 
+import static com.example.kaspero.sciapp2.R.id.exitBtn;
+import static com.example.kaspero.sciapp2.R.id.start;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,7 +25,7 @@ import com.example.kaspero.sciapp2.R;
  */
 public class MainFragment extends Fragment implements View.OnClickListener{
 
-    Button chooseBtn,optionBtn;
+    Button chooseBtn,optionBtn,exitBtn;
 
     public MainFragment() {
         // Required empty public constructor
@@ -52,6 +56,11 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         optionBtn = (Button)view.findViewById(R.id.settingsBtn);
         optionBtn.setOnClickListener(this);
 
+        exitBtn = (Button)view.findViewById(R.id.exitBtn);
+        exitBtn.setOnClickListener(this);
+
+
+
         return view;
     }
 
@@ -70,6 +79,10 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         if(btn == optionBtn){
             Intent intent = new Intent(getActivity(),OptionActivity.class);
             startActivity(intent);
+        }
+
+        if(btn == exitBtn){
+            System.exit(0);
         }
 
     }
