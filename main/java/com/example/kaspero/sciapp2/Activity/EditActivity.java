@@ -161,7 +161,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         Button btn = (Button) v;
         if(btn == optionButton) {
-            Log.v("DONKEY", "option");
+            Intent intent = new Intent(this,OptionActivity.class);
+            startActivity(intent);
         }else if(btn == loadButton) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
             {
@@ -299,12 +300,13 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                     Imgproc.cvtColor(imageMat,imageMat,Imgproc.COLOR_RGB2BGR);
                     Bitmap result = Bitmap.createBitmap(imageMat.cols(),imageMat.rows(), Bitmap.Config.ARGB_8888);
                     Core.inRange(imageMat,
-                            new Scalar(Options.getInstance().getHigh_B(),
-                                    Options.getInstance().getHigh_G(),
-                                    Options.getInstance().getHigh_R()),
                             new Scalar(Options.getInstance().getLow_B(),
-                                        Options.getInstance().getLow_G(),
-                                        Options.getInstance().getLow_R()),
+                                    Options.getInstance().getLow_G(),
+                                    Options.getInstance().getLow_R()),
+
+                            new Scalar(Options.getInstance().getHigh_B(),
+                                        Options.getInstance().getHigh_G(),
+                                        Options.getInstance().getHigh_R()),
                             threshold);
                     GaussianBlur(threshold,threshold,new Size(9,9),2,2);
 /**                 SET EVERYTHING INTO IMAGEVIEW*/

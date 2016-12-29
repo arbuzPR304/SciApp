@@ -10,7 +10,7 @@ import org.xmlpull.v1.XmlPullParser;
  *
  */
 public class Options {
-    public static enum LibsComputerVision {OPENCV,BOOF};
+    public static enum LibsComputerVision {OPENCV,BOOF,OTHER};
 
     public int getHigh_R() {
         return high_R;

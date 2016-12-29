@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.kaspero.sciapp2.Activity.EditActivity;
+import com.example.kaspero.sciapp2.Activity.OptionActivity;
 import com.example.kaspero.sciapp2.R;
 
 
@@ -20,7 +21,7 @@ import com.example.kaspero.sciapp2.R;
  */
 public class MainFragment extends Fragment implements View.OnClickListener{
 
-    Button chooseBtn;
+    Button chooseBtn,optionBtn;
 
     public MainFragment() {
         // Required empty public constructor
@@ -48,6 +49,9 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         chooseBtn = (Button)view.findViewById(R.id.chooseBtn);
         chooseBtn.setOnClickListener(this);
 
+        optionBtn = (Button)view.findViewById(R.id.settingsBtn);
+        optionBtn.setOnClickListener(this);
+
         return view;
     }
 
@@ -62,6 +66,10 @@ public class MainFragment extends Fragment implements View.OnClickListener{
             Intent intent = new Intent(getActivity(),EditActivity.class);
             startActivity(intent);
 
+        }
+        if(btn == optionBtn){
+            Intent intent = new Intent(getActivity(),OptionActivity.class);
+            startActivity(intent);
         }
 
     }

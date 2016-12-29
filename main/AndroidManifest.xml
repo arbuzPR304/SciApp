@@ -40,6 +40,10 @@
             android:label="@string/title_activity_edit"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-    </application>
+        <activity android:name=".Activity.OptionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
 
+    </application>
 </manifest>
