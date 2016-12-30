@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/infoBtn"
                 android:layout_weight="1"
-                android:background="@drawable/disactive"
+                android:background="@drawable/herro_button"
                 android:textColor="#FAC740"
                 android:layout_margin="3dp"/>
 

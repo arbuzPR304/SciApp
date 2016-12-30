@@ -7,7 +7,7 @@
 
     <string name="title_activity_edit">Edycja</string>
     <string name="edit_button_option">OPCJE</string>
-    <string name="edit_button_info">INFO</string>
+    <string name="edit_button_info">POWRÓT</string>
     <string name="edit_button_search">SZUKAJ</string>
     <string name="edit_button_load">WCZYTAJ</string>
 

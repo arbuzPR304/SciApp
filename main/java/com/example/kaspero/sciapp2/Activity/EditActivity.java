@@ -178,7 +178,9 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 searchRGB(editPhoto);
             }
         }else if (btn == infoButton) {
-            Log.v("DONKEY", "info");
+            if(editPhoto!=null){
+                intentPhoto.setImageBitmap(editPhoto);
+            }
         }
     }
 
