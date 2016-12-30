@@ -154,7 +154,21 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         searchButton.setOnClickListener(this);
         infoButton.setOnClickListener(this);
 
-
+        if(Options.getInstance().getFromCamera()){
+            ContentResolver cr = this.getContentResolver();
+            InputStream in = null;
+            try {
+                in = cr.openInputStream(Options.getInstance().getPhotoUriOpt());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize=4;
+            editPhoto = BitmapFactory.decodeStream(in,null,options);
+            intentPhoto.setImageBitmap(editPhoto);
+            Options.getInstance().setFromCamera(false);
+            Options.getInstance().setPhotoUriOpt(null);
+        }
     }
 
     @Override
