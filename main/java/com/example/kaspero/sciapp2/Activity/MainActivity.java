@@ -160,4 +160,4 @@ public class MainActivity extends AppCompatActivity{
 
 
 }
-//TODO dwie biblioteki, O APLIKACJI, Marker, ZAPIS DO PLIKU, aparat
+//TODO dwie biblioteki, O APLIKACJI, Marker, ZAPIS DO PLIKU, kwadraty
