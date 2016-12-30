@@ -1,6 +1,7 @@
 package com.example.kaspero.sciapp2.Options;
 import android.content.Context;
 import android.content.res.XmlResourceParser;
+import android.net.Uri;
 import android.util.Xml;
 
 import com.example.kaspero.sciapp2.R;
@@ -75,8 +76,13 @@ public class Options {
     public Boolean getSaveBitmap() {
         return saveBitmap;
     }
+    public Boolean getFromCamera() {
+        return fromCamera;
+    }
 
-/** SETTER */
+
+
+    /** SETTER */
 
     public void setLibsComputerVision(LibsComputerVision libsComputerVision) {
         this.libsComputerVision = libsComputerVision;
@@ -85,6 +91,11 @@ public class Options {
     public void setSaveBitmap(Boolean saveBitmap) {
         this.saveBitmap = saveBitmap;
     }
+
+    public void setFromCamera(Boolean fromCamera) {
+        this.fromCamera = fromCamera;
+    }
+
 
     private int high_R;
     private int high_G;
@@ -97,6 +108,18 @@ public class Options {
     private LibsComputerVision libsComputerVision;
     private Boolean saveBitmap;
     private Boolean onStart = true;
+    private Boolean fromCamera = false;
+
+    public Uri getPhotoUriOpt() {
+        return photoUriOpt;
+    }
+
+    public void setPhotoUriOpt(Uri photoUriOpt) {
+        this.photoUriOpt = photoUriOpt;
+    }
+
+    private Uri photoUriOpt = null;
+
 
     public Boolean getOnStart() {
         return onStart;

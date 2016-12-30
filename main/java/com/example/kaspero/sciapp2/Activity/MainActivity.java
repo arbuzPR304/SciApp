@@ -1,6 +1,8 @@
 package com.example.kaspero.sciapp2.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity{
     private String mCurrentPhotoPath;
     private FragmentManager manager;
     static final int REQUEST_TAKE_PHOTO = 1;
+
+    private Uri photoURI = null;
 
 
 /**
@@ -67,7 +71,7 @@ public class MainActivity extends AppCompatActivity{
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
+                photoURI = FileProvider.getUriForFile(this,
                         "com.example.android.kaspero.sciapp2",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
@@ -104,13 +108,34 @@ public class MainActivity extends AppCompatActivity{
         }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final Context context = this;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dispatchTakePictureIntent();
+
+//                Options.getInstance().setFromCamera(true);
+//                Intent intent = new Intent(context,EditActivity.class);
+//                intent.putExtra("PHOTO",photoURI.toString());
+//                startActivity(intent);
             }
         });
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+            if (photoURI!=null){
+                Options.getInstance().setPhotoUriOpt(photoURI);
+                Options.getInstance().setFromCamera(true);
+            }
+            Intent intent = new Intent(this,EditActivity.class);
+            startActivity(intent);
+        }
+    }
+
 
     /**
      * FOR OPEN CHOOSE PHOTO FRAGMENT
