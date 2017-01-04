@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -19,8 +20,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
-
 import com.example.kaspero.sciapp2.Options.Options;
 import com.example.kaspero.sciapp2.R;
 import org.opencv.android.BaseLoaderCallback;
@@ -34,15 +33,13 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-
-import static com.example.kaspero.sciapp2.Options.Options.LibsComputerVision.BOOF;
-import static com.example.kaspero.sciapp2.Options.Options.LibsComputerVision.OPENCV;
 import static org.opencv.imgproc.Imgproc.GaussianBlur;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
+
 public class EditActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final boolean AUTO_HIDE = true;
@@ -59,6 +56,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * VARIABLES
      * */
+
     private final int RESULT_LOAD_IMAGE = 1;
     private Uri contentURI=null;
     private boolean SEARCH_BUTTON = false;
@@ -306,15 +304,20 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 case LoaderCallbackInterface.SUCCESS:
                 {
 /**                 INIT OF THE MATRIXS           */
-                    imageMat=new Mat();
                     Mat imageMat=new Mat();
                     Mat threshold=new Mat();
+                    Mat finalmente=new Mat();
+
                     Utils.bitmapToMat(editPhoto,imageMat);
 /**                 RGB ANDROID BITMAP CONVERT INTO BGR OPENCV COLOR FORMAT
  *                  NEXT SET SCALAR  BRG VALUE
  *                  FINALLY GaussianBlur*/
+
                     Imgproc.cvtColor(imageMat,imageMat,Imgproc.COLOR_RGB2BGR);
                     Bitmap result = Bitmap.createBitmap(imageMat.cols(),imageMat.rows(), Bitmap.Config.ARGB_8888);
+                    Bitmap result2 = Bitmap.createBitmap(imageMat.cols(),imageMat.rows(), Bitmap.Config.ARGB_8888);
+
+
                     Core.inRange(imageMat,
                             new Scalar(Options.getInstance().getLow_B(),
                                     Options.getInstance().getLow_G(),
@@ -324,11 +327,40 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                                         Options.getInstance().getHigh_G(),
                                         Options.getInstance().getHigh_R()),
                             threshold);
-                    GaussianBlur(threshold,threshold,new Size(9,9),2,2);
+
+                    GaussianBlur(threshold,finalmente,new Size(9,9),1,1);
+
+/**
+ *  Set marker
+ */
+
+
+
 /**                 SET EVERYTHING INTO IMAGEVIEW*/
-                    Utils.matToBitmap(threshold,result);
-                    intentPhoto.setImageBitmap(result);
-                    editPhotoLast = result;
+                    Utils.matToBitmap(finalmente,result);
+                    Imgproc.cvtColor(imageMat,imageMat,Imgproc.COLOR_BGR2RGB);
+                    Utils.matToBitmap(imageMat,result2);
+
+
+                    for(int i=0;i<result.getHeight();i++){
+                        for(int j=0;j<result.getWidth();j++){
+                            int pixTemp = result.getPixel(j,i);
+                            int redValue = Color.red(pixTemp);
+                            int blueValue = Color.blue(pixTemp);
+                            int greenValue = Color.green(pixTemp);
+
+                            if(redValue>220 && blueValue>220 && greenValue>220){
+                                result.setPixel(j,i,Color.rgb(255,255,255));
+                            }else if(redValue>0 && blueValue>0 && greenValue>0){
+                                result2.setPixel(j,i,Color.rgb(50,255,0));
+                            }
+
+                        }
+                    }
+
+
+                    intentPhoto.setImageBitmap(result2);
+                    editPhotoLast = result2;
 
                 }break;
             default:
