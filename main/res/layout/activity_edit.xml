@@ -32,6 +32,18 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progresView"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/colorAccent"
+            android:paddingLeft="150dp"
+            android:paddingTop="250dp"
+            android:textSize="50sp"
+            android:textStyle="normal|bold" />
+
         <LinearLayout
             android:id="@+id/fullscreen_content_controls"
             style="?metaButtonBarStyle"
