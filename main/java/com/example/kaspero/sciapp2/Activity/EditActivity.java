@@ -37,6 +37,7 @@ import org.opencv.imgproc.Imgproc;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import static org.opencv.imgproc.Imgproc.GaussianBlur;
+import static org.opencv.ml.SVM.C;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -308,7 +309,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             switch (status) {
                 case LoaderCallbackInterface.SUCCESS:
                 {
-
                          class MarkerClass extends AsyncTask<Bitmap,Integer,Bitmap>
                         {
                             @Override
@@ -339,7 +339,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                                                 Options.getInstance().getHigh_R()),
                                         threshold);
 
-                                GaussianBlur(threshold,finalmente,new Size(9,9),1,1);
+                                GaussianBlur(threshold,finalmente,new Size(5,5),1,1);
 
     /**
      *  Set marker
@@ -348,7 +348,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                                 Utils.matToBitmap(finalmente,result);
                                 Imgproc.cvtColor(imageMat,imageMat,Imgproc.COLOR_BGR2RGB);
                                 Utils.matToBitmap(imageMat,result2);
-
 
                                 for(int i=0;i<result.getHeight();i++){
                                     for(int j=0;j<result.getWidth();j++){
@@ -359,6 +358,12 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
                                         if(redValue>220 && blueValue>220 && greenValue>220){
                                             result.setPixel(j,i,Color.rgb(255,255,255));
+                                            int color = result2.getPixel(j,i);
+                                            result2.setPixel(j,i,
+                                                    Color.argb(70,
+                                                    Color.red(color),
+                                                    255,
+                                                    Color.blue(color)));
                                         }else if(redValue>0 && blueValue>0 && greenValue>0){
                                             result2.setPixel(j,i,Color.rgb(50,255,0));
                                         }
