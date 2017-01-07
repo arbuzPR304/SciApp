@@ -33,16 +33,16 @@
         android:fitsSystemWindows="true">
 
         <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:text="10%"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/progresView"
             android:fontFamily="sans-serif"
             android:textColor="@color/colorAccent"
-            android:paddingLeft="150dp"
-            android:paddingTop="250dp"
             android:textSize="50sp"
-            android:textStyle="normal|bold" />
+            android:textStyle="normal|bold"
+            android:textAlignment="center"
+            android:paddingTop="250dp" />
 
         <LinearLayout
             android:id="@+id/fullscreen_content_controls"
@@ -64,6 +64,7 @@
                 android:background="@drawable/herro_button"
                 android:textColor="#FAC740"
                 android:layout_margin="3dp"/>
+
             <Button
                 android:text="@string/edit_button_load"
                 android:layout_width="0dp"

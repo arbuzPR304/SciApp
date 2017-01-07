@@ -11,27 +11,26 @@
     tools:context="com.example.kaspero.sciapp2.Activity.OptionActivity"
     android:orientation="vertical"
     android:background="@drawable/hero_bg_gradient"
-    android:layout_weight="8"
-    android:weightSum="8">
+    android:layout_weight="7"
+    android:weightSum="7">
 
+
+    <TextView
+        android:text="Dolna granica RGB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lowRGBLabel"
+        android:layout_weight="1"
+        android:textStyle="normal|bold"
+        android:textColor="#FAC740"
+        android:textSize="24sp" />
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/labelLowRGB"
-        >
-
-        <TextView
-            android:text="Dolna granica RGB"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/lowRGBLabel"
-            android:layout_weight="1"
-            android:textStyle="normal|bold"
-            android:textColor="#FAC740"
-            android:textSize="24sp"
-            android:padding="5dp" />
+        android:layout_weight="1">
 
     </LinearLayout>
 
@@ -39,7 +38,8 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/lowInput">
+        android:id="@+id/lowInput"
+        android:layout_weight="1">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -122,7 +122,17 @@
                 android:textColor="@color/white"
                 android:textColorHighlight="@color/white"
                 android:textColorHint="@color/white" />
+
         </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:id="@+id/rgbButtonLow"
+            android:background="?android:attr/windowBackground"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:elevation="0dp" />
 
     </LinearLayout>
 
@@ -131,7 +141,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/labelHighRGB"
-        >
+        android:layout_weight="1">
 
         <TextView
             android:text="Górna granica RGB"
@@ -149,7 +159,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -235,6 +246,15 @@
                 android:textColorHint="@color/white" />
         </LinearLayout>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:id="@+id/rgbButtonHigh"
+            android:background="?android:attr/windowBackground"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:elevation="0dp" />
+
     </LinearLayout>
 
 
@@ -242,7 +262,8 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="92dp"
-        android:id="@+id/labelLibs">
+        android:id="@+id/labelLibs"
+        android:layout_weight="1">
 
         <TextView
             android:text="Biblioteki CV"
@@ -334,7 +355,7 @@
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:layout_marginTop="30dp"
-        android:layout_width="300dp"
+        android:layout_width="232dp"
         android:drawablePadding="5dp"
         android:drawableRight="@drawable/item_not_selected"
         android:layout_marginBottom="20dp"
