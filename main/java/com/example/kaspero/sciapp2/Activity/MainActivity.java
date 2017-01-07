@@ -160,4 +160,4 @@ public class MainActivity extends AppCompatActivity{
 
 
 }
-//TODO dwie biblioteki, O APLIKACJI, ZAPIS DO PLIKU
+//TODO dwie biblioteki, O APLIKACJI,

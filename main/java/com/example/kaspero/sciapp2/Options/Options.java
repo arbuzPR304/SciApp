@@ -137,12 +137,6 @@ public class Options {
 
     }
 
-
-    public void writeOptions(Context context){
-            XmlResourceParser fos = context.getResources().getXml(R.xml.lastoptions);
-
-    }
-
 //source https://developer.android.com/reference/org/xmlpull/v1/XmlPullParser.html
     public  void loadOptions(Context context){
         String temp="null";

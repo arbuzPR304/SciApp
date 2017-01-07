@@ -18,6 +18,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import com.example.kaspero.sciapp2.Options.Options;
 import com.example.kaspero.sciapp2.R;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
+
 public class OptionActivity extends AppCompatActivity {
 
     CheckBox openCV;
@@ -290,8 +293,8 @@ public class OptionActivity extends AppCompatActivity {
                             Options.getInstance().setHigh_G(GH);
                             Options.getInstance().setHigh_B(BH);
                             Options.getInstance().setLow_R(RL);
-                            Options.getInstance().setLow_B(GL);
-                            Options.getInstance().setLow_G(BL);
+                            Options.getInstance().setLow_B(BL);
+                            Options.getInstance().setLow_G(GL);
 
                             Options.getInstance().setLibsComputerVision(lib);
 

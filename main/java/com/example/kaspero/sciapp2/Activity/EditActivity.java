@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -34,8 +35,13 @@ import org.opencv.core.Mat;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
+
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.Random;
+
 import static org.opencv.imgproc.Imgproc.GaussianBlur;
 import static org.opencv.ml.SVM.C;
 
@@ -44,7 +50,7 @@ import static org.opencv.ml.SVM.C;
  * status bar and navigation/system bar) with user interaction.
  */
 
-public class EditActivity extends AppCompatActivity implements View.OnClickListener{
+public class EditActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final boolean AUTO_HIDE = true;
     private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
@@ -59,22 +65,24 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * VARIABLES
-     * */
+     */
 
     private final int RESULT_LOAD_IMAGE = 1;
-    private Uri contentURI=null;
+    private Uri contentURI = null;
     private boolean SEARCH_BUTTON = false;
     private Bitmap editPhoto = null;
     private Bitmap editPhotoLast = null;
     private Mat imageMat;
-    private Button optionButton,searchButton,infoButton,loadButton;
+    private Button optionButton, searchButton, infoButton, loadButton;
     private ImageView intentPhoto;
     private View mControlsView;
     private boolean mVisible;
     private TextView progresView;
 
 
-    /** SHOW AND HIDE fullscreen_content_controls */
+    /**
+     * SHOW AND HIDE fullscreen_content_controls
+     */
 
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
@@ -123,7 +131,9 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
-    /** END SHOW AND HIDE fullscreen_content_controls */
+    /**
+     * END SHOW AND HIDE fullscreen_content_controls
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,15 +144,14 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
-        optionButton = (Button)findViewById(R.id.optionBtn);
-        loadButton = (Button)findViewById(R.id.loadBtn);
-        searchButton = (Button)findViewById(R.id.searchBtn);
-        infoButton = (Button)findViewById(R.id.infoBtn);
-
+        optionButton = (Button) findViewById(R.id.optionBtn);
+        loadButton = (Button) findViewById(R.id.loadBtn);
+        searchButton = (Button) findViewById(R.id.searchBtn);
+        infoButton = (Button) findViewById(R.id.infoBtn);
 
 
         intentPhoto = (ImageView) findViewById(R.id.intentPhoto);
-        progresView = (TextView)findViewById(R.id.progresView);
+        progresView = (TextView) findViewById(R.id.progresView);
 
         progresView.setVisibility(TextView.INVISIBLE);
         // Set up the user interaction to manually show or hide the system UI.
@@ -158,7 +167,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         searchButton.setOnClickListener(this);
         infoButton.setOnClickListener(this);
 
-        if(Options.getInstance().getFromCamera()){
+        if (Options.getInstance().getFromCamera()) {
             ContentResolver cr = this.getContentResolver();
             InputStream in = null;
             try {
@@ -167,8 +176,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 e.printStackTrace();
             }
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize=4;
-            editPhoto = BitmapFactory.decodeStream(in,null,options);
+            options.inSampleSize = 4;
+            editPhoto = BitmapFactory.decodeStream(in, null, options);
             intentPhoto.setImageBitmap(editPhoto);
             Options.getInstance().setFromCamera(false);
             Options.getInstance().setPhotoUriOpt(null);
@@ -178,33 +187,32 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         Button btn = (Button) v;
-        if(btn == optionButton) {
-            Intent intent = new Intent(this,OptionActivity.class);
+        if (btn == optionButton) {
+            Intent intent = new Intent(this, OptionActivity.class);
             startActivity(intent);
-        }else if(btn == loadButton) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-            {
-                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},111);
-            }else{
+        } else if (btn == loadButton) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 111);
+            } else {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), RESULT_LOAD_IMAGE);
                 // capture photo on Resume
             }
-        }else if (btn == searchButton) {
-            if (editPhoto!=null){
+        } else if (btn == searchButton) {
+            if (editPhoto != null) {
                 searchRGB(editPhoto);
             }
-        }else if (btn == infoButton) {
-            if(editPhoto!=null){
+        } else if (btn == infoButton) {
+            if (editPhoto != null) {
                 intentPhoto.setImageBitmap(editPhoto);
             }
         }
     }
 
     /**
- * ONLY TOGGLE DEF SIMPLY FOR HIDE AND SHOW
- * */
+     * ONLY TOGGLE DEF SIMPLY FOR HIDE AND SHOW
+     */
 
     private void toggle() {
         if (mVisible) {
@@ -247,14 +255,16 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    /** CAPTURE CHOOSEN PHOTO, NEXT TAKING URL, BITMAP IN
-     * TO MEMMORY AND THE AND SET IN IMAGEVIEW*/
+    /**
+     * CAPTURE CHOOSEN PHOTO, NEXT TAKING URL, BITMAP IN
+     * TO MEMMORY AND THE AND SET IN IMAGEVIEW
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-        switch(requestCode) {
+        switch (requestCode) {
             case 1:
-                if(resultCode == RESULT_OK){
-                    if(imageReturnedIntent != null){
+                if (resultCode == RESULT_OK) {
+                    if (imageReturnedIntent != null) {
                         contentURI = Uri.parse(imageReturnedIntent.getDataString());
                         ContentResolver cr = this.getContentResolver();
                         InputStream in = null;
@@ -264,15 +274,15 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                             e.printStackTrace();
                         }
                         BitmapFactory.Options options = new BitmapFactory.Options();
-                        options.inSampleSize=4;
-                        editPhoto = BitmapFactory.decodeStream(in,null,options);
+                        options.inSampleSize = 4;
+                        editPhoto = BitmapFactory.decodeStream(in, null, options);
                         intentPhoto.setImageBitmap(editPhoto);
                         if (editPhoto != null) {
                             final int sdk = android.os.Build.VERSION.SDK_INT;
-                            if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                                searchButton.setBackgroundDrawable( getResources().getDrawable(R.drawable.herro_button) );
+                            if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                                searchButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.herro_button));
                             } else {
-                                searchButton.setBackground( getResources().getDrawable(R.drawable.herro_button));
+                                searchButton.setBackground(getResources().getDrawable(R.drawable.herro_button));
                             }
                         }
 
@@ -283,9 +293,10 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    /**RECOGNISE CV LIB [OPEN CV, ..., ...,]*/
-    public void searchRGB(Bitmap photo)
-    {
+    /**
+     * RECOGNISE CV LIB [OPEN CV, ..., ...,]
+     */
+    public void searchRGB(Bitmap photo) {
         switch (Options.getInstance().getLibsComputerVision()) {
             case OPENCV:
                 if (!OpenCVLoader.initDebug()) {
@@ -302,98 +313,131 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    /** OPENCV SEARCH RGB ENGINE*/
+    /**
+     * OPENCV SEARCH RGB ENGINE
+     */
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
             switch (status) {
-                case LoaderCallbackInterface.SUCCESS:
-                {
-                         class MarkerClass extends AsyncTask<Bitmap,Integer,Bitmap>
-                        {
-                            @Override
-                            protected Bitmap doInBackground(Bitmap... params) {
+                case LoaderCallbackInterface.SUCCESS: {
+                    class MarkerClass extends AsyncTask<Bitmap, Integer, Bitmap> {
+                        @Override
+                        protected Bitmap doInBackground(Bitmap... params) {
 
-    /**                 INIT OF THE MATRIXS           */
-                                Mat imageMat=new Mat();
-                                Mat threshold=new Mat();
-                                Mat finalmente=new Mat();
+                            /**                 INIT OF THE MATRIXS           */
+                            Mat imageMat = new Mat();
+                            Mat threshold = new Mat();
+                            Mat finalmente = new Mat();
 
-                                Utils.bitmapToMat(params[0],imageMat);
-    /**                 RGB ANDROID BITMAP CONVERT INTO BGR OPENCV COLOR FORMAT
-     *                  NEXT SET SCALAR  BRG VALUE
-     *                  FINALLY GaussianBlur*/
+                            Utils.bitmapToMat(params[0], imageMat);
+                            /**                 RGB ANDROID BITMAP CONVERT INTO BGR OPENCV COLOR FORMAT
+                             *                  NEXT SET SCALAR  BRG VALUE
+                             *                  FINALLY GaussianBlur*/
 
-                                Imgproc.cvtColor(imageMat,imageMat,Imgproc.COLOR_RGB2BGR);
-                                Bitmap result = Bitmap.createBitmap(imageMat.cols(),imageMat.rows(), Bitmap.Config.ARGB_8888);
-                                Bitmap result2 = Bitmap.createBitmap(imageMat.cols(),imageMat.rows(), Bitmap.Config.ARGB_8888);
+                            Imgproc.cvtColor(imageMat, imageMat, Imgproc.COLOR_RGB2BGR);
+                            Bitmap result = Bitmap.createBitmap(imageMat.cols(), imageMat.rows(), Bitmap.Config.ARGB_8888);
+                            Bitmap result2 = Bitmap.createBitmap(imageMat.cols(), imageMat.rows(), Bitmap.Config.ARGB_8888);
 
 
-                                Core.inRange(imageMat,
-                                        new Scalar(Options.getInstance().getLow_B(),
-                                                Options.getInstance().getLow_G(),
-                                                Options.getInstance().getLow_R()),
+                            Log.v("DONKEY", "" + (Options.getInstance().getHigh_B() + " " + Options.getInstance().getHigh_G() + " " +
+                                    Options.getInstance().getHigh_R()));
+                            Log.v("DONKEYLow", "" + (Options.getInstance().getLow_B() + " " + Options.getInstance().getLow_G() + " " +
+                                    Options.getInstance().getLow_R()));
 
-                                        new Scalar(Options.getInstance().getHigh_B(),
-                                                Options.getInstance().getHigh_G(),
-                                                Options.getInstance().getHigh_R()),
-                                        threshold);
+                            Core.inRange(imageMat,
+                                    new Scalar(Options.getInstance().getLow_B(),
+                                            Options.getInstance().getLow_G(),
+                                            Options.getInstance().getLow_R()),
 
-                                GaussianBlur(threshold,finalmente,new Size(5,5),1,1);
+                                    new Scalar(Options.getInstance().getHigh_B(),
+                                            Options.getInstance().getHigh_G(),
+                                            Options.getInstance().getHigh_R()),
+                                    threshold);
 
-    /**
-     *  Set marker
-     */
-    /**                 SET EVERYTHING INTO IMAGEVIEW*/
-                                Utils.matToBitmap(finalmente,result);
-                                Imgproc.cvtColor(imageMat,imageMat,Imgproc.COLOR_BGR2RGB);
-                                Utils.matToBitmap(imageMat,result2);
+                            GaussianBlur(threshold, finalmente, new Size(5, 5), 1, 1);
 
-                                for(int i=0;i<result.getHeight();i++){
-                                    for(int j=0;j<result.getWidth();j++){
-                                        int pixTemp = result.getPixel(j,i);
-                                        int redValue = Color.red(pixTemp);
-                                        int blueValue = Color.blue(pixTemp);
-                                        int greenValue = Color.green(pixTemp);
+                            /**
+                             *  Set marker
+                             */
+                            /**                 SET EVERYTHING INTO IMAGEVIEW*/
+                            Utils.matToBitmap(finalmente, result);
+                            Imgproc.cvtColor(imageMat, imageMat, Imgproc.COLOR_BGR2RGB);
+                            Utils.matToBitmap(imageMat, result2);
 
-                                        if(redValue>220 && blueValue>220 && greenValue>220){
-                                            result.setPixel(j,i,Color.rgb(255,255,255));
-                                            int color = result2.getPixel(j,i);
-                                            result2.setPixel(j,i,
-                                                    Color.argb(70,
-                                                    Color.red(color),
-                                                    255,
-                                                    Color.blue(color)));
-                                        }else if(redValue>0 && blueValue>0 && greenValue>0){
-                                            result2.setPixel(j,i,Color.rgb(50,255,0));
-                                        }
+                            for (int i = 0; i < result.getHeight(); i++) {
+                                for (int j = 0; j < result.getWidth(); j++) {
+                                    int pixTemp = result.getPixel(j, i);
+                                    int redValue = Color.red(pixTemp);
+                                    int blueValue = Color.blue(pixTemp);
+                                    int greenValue = Color.green(pixTemp);
+
+                                    if (redValue > 220 && blueValue > 220 && greenValue > 220) {
+                                        result.setPixel(j, i, Color.rgb(255, 255, 255));
+                                        int color = result2.getPixel(j, i);
+                                        result2.setPixel(j, i,
+                                                Color.argb(70,
+                                                        Color.red(color),
+                                                        255,
+                                                        Color.blue(color)));
+                                    } else if (redValue > 0 && blueValue > 0 && greenValue > 0) {
+                                        result2.setPixel(j, i, Color.rgb(50, 255, 0));
                                     }
-                                    publishProgress((int)((i/(float) result.getHeight())*100));
                                 }
-                                return result2;
+                                publishProgress((int) ((i / (float) result.getHeight()) * 100));
                             }
-
-                            @Override
-                            protected void onProgressUpdate(Integer... progress) {
-                                progresView.setVisibility(TextView.VISIBLE);
-                                progresView.setText(""+progress[0]+" %");
-                            }
-
-                            @Override
-                            protected void onPostExecute(Bitmap bitmap) {
-                                super.onPostExecute(bitmap);
-                                intentPhoto.setImageBitmap(bitmap);
-                                editPhotoLast = bitmap;
-                                progresView.setVisibility(TextView.INVISIBLE);
-                            }
+                            return result2;
                         }
+
+                        @Override
+                        protected void onProgressUpdate(Integer... progress) {
+                            progresView.setVisibility(TextView.VISIBLE);
+                            progresView.setText("" + progress[0] + " %");
+                        }
+
+                        @Override
+                        protected void onPostExecute(Bitmap bitmap) {
+                            super.onPostExecute(bitmap);
+                            intentPhoto.setImageBitmap(bitmap);
+                            editPhotoLast = bitmap;
+                            if(Options.getInstance().getSaveBitmap())
+                                SaveImage(bitmap);
+                            progresView.setVisibility(TextView.INVISIBLE);
+                        }
+                    }
                     new MarkerClass().execute(editPhoto);
 
-                }break;
-            default:
-                {super.onManagerConnected(status);}break;
+                }
+                break;
+                default: {
+                    super.onManagerConnected(status);
+                }
+                break;
             }
         }
     };
+// http://stackoverflow.com/questions/7887078/android-saving-file-to-external-storage/7887114#7887114
+    private void SaveImage(Bitmap finalBitmap) {
+
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/SciApp");
+        myDir.mkdirs();
+        Random generator = new Random();
+        int n = 10000;
+        n = generator.nextInt(n);
+        String fname = "Image-" + n + ".jpg";
+        File file = new File(myDir, fname);
+        if (file.exists()) file.delete();
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
+
 

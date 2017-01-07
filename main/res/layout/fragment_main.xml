@@ -15,7 +15,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_margin="10dp"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:layout_marginBottom="100dp">
 
 
         <TextView
@@ -55,26 +56,11 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:layout_marginTop="15dp"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:drawablePadding="5dp"
             android:drawableRight="@drawable/item_not_selected"
             android:layout_height="42dp" />
 
-
-        <Button
-            android:text="O APLIKACJI"
-            android:id="@+id/helpBtn"
-            android:background="@drawable/herro_button"
-            android:layout_gravity="center"
-            android:textColor="#FAC740"
-            android:drawableLeft="@drawable/item_not_selected"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:layout_marginTop="15dp"
-            android:layout_width="300dp"
-            android:drawablePadding="5dp"
-            android:drawableRight="@drawable/item_not_selected"
-            android:layout_height="42dp" />
 
         <Button
             android:text="OPCJE"
@@ -86,7 +72,7 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:layout_marginTop="15dp"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:drawablePadding="5dp"
             android:drawableRight="@drawable/item_not_selected"
             android:layout_height="42dp" />
@@ -102,7 +88,7 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:layout_marginTop="15dp"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:drawablePadding="5dp"
             android:drawableRight="@drawable/item_not_selected"
             android:layout_marginBottom="20dp"
