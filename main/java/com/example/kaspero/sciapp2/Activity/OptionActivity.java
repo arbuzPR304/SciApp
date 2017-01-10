@@ -204,13 +204,13 @@ public class OptionActivity extends AppCompatActivity {
         rgbColorHigh.setBackgroundColor(Color.rgb(
                 Options.getInstance().getHigh_R(),
                 Options.getInstance().getHigh_G(),
-                Options.getInstance().getHigh_R())
+                Options.getInstance().getHigh_B())
         );
 
         rgbColorLow.setBackgroundColor(Color.rgb(
                 Options.getInstance().getLow_R(),
                 Options.getInstance().getLow_G(),
-                Options.getInstance().getLow_R())
+                Options.getInstance().getLow_B())
         );
 
 
