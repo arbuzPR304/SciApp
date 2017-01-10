@@ -72,6 +72,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private Uri contentURI = null;
     private boolean SEARCH_BUTTON = false;
     private Bitmap editPhoto = null;
+    private Bitmap editPhoto2 = null;
     private Bitmap editPhotoLast = null;
     private Mat imageMat;
     private Button optionButton, searchButton, infoButton, loadButton;
@@ -179,6 +180,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = 4;
             editPhoto = BitmapFactory.decodeStream(in, null, options);
+            editPhoto2 =editPhoto;
             intentPhoto.setImageBitmap(editPhoto);
             Options.getInstance().setFromCamera(false);
             Options.getInstance().setPhotoUriOpt(null);
@@ -205,8 +207,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 searchRGB(editPhoto);
             }
         } else if (btn == infoButton) {
-            if (editPhoto != null) {
-                intentPhoto.setImageBitmap(editPhoto);
+            if (editPhoto2 != null) {
+                intentPhoto.setImageBitmap(editPhoto2);
             }
         }
     }
@@ -277,6 +279,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                         BitmapFactory.Options options = new BitmapFactory.Options();
                         options.inSampleSize = 4;
                         editPhoto = BitmapFactory.decodeStream(in, null, options);
+                        editPhoto2 =editPhoto;
                         intentPhoto.setImageBitmap(editPhoto);
                         if (editPhoto != null) {
                             final int sdk = android.os.Build.VERSION.SDK_INT;
@@ -310,10 +313,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case BOOF:
                 LibOne libOne = new LibOne(photo);
-                photo = libOne.basicEdit();
-                intentPhoto.setImageBitmap(photo);
-
-
+                intentPhoto.setImageBitmap(libOne.findColorBoof());
                 break;
         }
     }
