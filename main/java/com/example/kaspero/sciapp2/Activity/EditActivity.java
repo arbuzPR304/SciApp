@@ -313,7 +313,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case BOOF:
                 LibOne libOne = new LibOne(photo);
-                intentPhoto.setImageBitmap(libOne.findColorBoof());
+                libOne.findColorBoof(intentPhoto,progresView);
+                // TODO set up tolerant
                 break;
         }
     }
