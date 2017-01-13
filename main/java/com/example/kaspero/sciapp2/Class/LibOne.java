@@ -3,8 +3,6 @@ package com.example.kaspero.sciapp2.Class;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,11 +18,7 @@ import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.Planar;
 import georegression.metric.UtilAngle;
 
-import static android.R.attr.x;
-import static android.R.attr.y;
-import static android.R.id.input;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
-import static com.example.kaspero.sciapp2.R.id.progresView;
+
 
 /**
  * Created by kaspero on 08.01.2017.

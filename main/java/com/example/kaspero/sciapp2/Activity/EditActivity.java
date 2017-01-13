@@ -25,8 +25,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kaspero.sciapp2.Class.LibOne;
+import com.example.kaspero.sciapp2.Class.OwnWay;
 import com.example.kaspero.sciapp2.Options.Options;
 import com.example.kaspero.sciapp2.R;
+import com.example.kaspero.sciapp2.ToolsCV.ToolsCV;
+
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
@@ -316,6 +319,10 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 libOne.findColorBoof(intentPhoto,progresView);
                 // TODO set up tolerant
                 break;
+            case OTHER:
+                OwnWay ownWay = new OwnWay(photo);
+                ownWay.findColorBinarySeach(intentPhoto,progresView);
+                break;
         }
     }
 
@@ -407,7 +414,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                             intentPhoto.setImageBitmap(bitmap);
                             editPhotoLast = bitmap;
                             if(Options.getInstance().getSaveBitmap())
-                                SaveImage(bitmap);
+                                ToolsCV.getInstance().saveImage(bitmap);
                             progresView.setVisibility(TextView.INVISIBLE);
                         }
                     }
@@ -422,28 +429,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     };
-// http://stackoverflow.com/questions/7887078/android-saving-file-to-external-storage/7887114#7887114
-    private void SaveImage(Bitmap finalBitmap) {
 
-        String root = Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + "/SciApp");
-        myDir.mkdirs();
-        Random generator = new Random();
-        int n = 10000;
-        n = generator.nextInt(n);
-        String fname = "Image-" + n + ".jpg";
-        File file = new File(myDir, fname);
-        if (file.exists()) file.delete();
-        try {
-            FileOutputStream out = new FileOutputStream(file);
-            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            out.flush();
-            out.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }
 
 

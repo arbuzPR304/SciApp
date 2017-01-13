@@ -2,14 +2,8 @@ package com.example.kaspero.sciapp2.Options;
 import android.content.Context;
 import android.content.res.XmlResourceParser;
 import android.net.Uri;
-import android.util.Xml;
-
 import com.example.kaspero.sciapp2.R;
 import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlSerializer;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 
 /**
  * Created by kaspero on 27.12.2016.
