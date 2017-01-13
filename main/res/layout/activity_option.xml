@@ -292,7 +292,7 @@
                 android:buttonTint="@color/white" />
 
             <CheckBox
-                android:text="BOOF"
+                android:text="BoofCV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/boof"
@@ -303,7 +303,7 @@
                 android:buttonTint="@color/white"/>
 
             <CheckBox
-                android:text="Other"
+                android:text="OwnWay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/other"

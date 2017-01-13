@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -25,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kaspero.sciapp2.Class.LibOne;
-import com.example.kaspero.sciapp2.Class.OwnWay;
 import com.example.kaspero.sciapp2.Options.Options;
 import com.example.kaspero.sciapp2.R;
 import com.example.kaspero.sciapp2.ToolsCV.ToolsCV;
@@ -40,14 +38,10 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.util.Random;
 
 import static org.opencv.imgproc.Imgproc.GaussianBlur;
-import static org.opencv.ml.SVM.C;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -320,8 +314,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 // TODO set up tolerant
                 break;
             case OTHER:
-                OwnWay ownWay = new OwnWay(photo);
-                ownWay.findColorBinarySeach(intentPhoto,progresView);
+
                 break;
         }
     }
