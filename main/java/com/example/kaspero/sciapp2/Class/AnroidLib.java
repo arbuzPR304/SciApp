@@ -81,9 +81,7 @@ public class AnroidLib {
 
             @Override
             protected Bitmap doInBackground(Void... params) {
-                setOutputMarker(bitmap.copy(Bitmap.Config.ARGB_8888,true));
                 Bitmap input =  bitmap.copy(Bitmap.Config.ARGB_8888,true);
-                Bitmap output = Bitmap.createBitmap(input.getWidth(),input.getHeight(), Bitmap.Config.ARGB_8888);
                 Bitmap outputWithMarker = bitmap.copy(Bitmap.Config.ARGB_8888,true);
                 int HR,HG,HB,LR,LG,LB;
 
@@ -95,69 +93,45 @@ public class AnroidLib {
                 LG = Options.getInstance().getLow_G();
                 LB = Options.getInstance().getLow_B();
 
-                for (int i=0;i<input.getHeight();i++){
-                    for(int j=0;j<input.getWidth();j++){
-                        int pixel = input.getPixel(j,i);
-
-                        if((Color.red(pixel)>=LR && Color.green(pixel)>= LG && Color.blue(pixel)>= LB)
-                                && (Color.red(pixel)<=HR && Color.green(pixel)<= HG && Color.blue(pixel)<= HB)){
-                            output.setPixel(j,i,Color.rgb(255,255,255));
-                        }
-                        else {output.setPixel(j,i,Color.rgb(0,0,0));}
-                    }
-                }
-
-                int whiteColor =  Color.rgb(255,255,255);
-                int blackColor =  Color.rgb(0,0,0);
-                TypeOfPixel type = TypeOfPixel.START;
-
-                for(int i= 1; i<output.getHeight()-1;i++){
-                    for(int j=1;j<output.getWidth()-1;j++){
+                for(int i= 1; i<input.getHeight()-1;i++){
+                    for(int j=1;j<input.getWidth()-1;j++){
                         int [] tabPixel =  new int [9];
-                        tabPixel[0] = output.getPixel(j-1,i-1);
-                        tabPixel[1] = output.getPixel(j,i-1);
-                        tabPixel[2] = output.getPixel(j+1-1,i-1);
+                        tabPixel[0] = input.getPixel(j-1,i-1);
+                        tabPixel[1] = input.getPixel(j,i-1);
+                        tabPixel[2] = input.getPixel(j+1-1,i-1);
 
-                        tabPixel[3] = output.getPixel(j-1,i);
-                        tabPixel[4] = output.getPixel(j,i);
-                        tabPixel[5] = output.getPixel(j+1,i);
+                        tabPixel[3] = input.getPixel(j-1,i);
+                        tabPixel[4] = input.getPixel(j,i);
+                        tabPixel[5] = input.getPixel(j+1,i);
 
-                        tabPixel[6] = output.getPixel(j-1,i+1);
-                        tabPixel[7] = output.getPixel(j,i+1);
-                        tabPixel[8] = output.getPixel(j+1,i+1);
-                        int numberWhite = 0;
-                        int numberBlack = 0;
-
+                        tabPixel[6] = input.getPixel(j-1,i+1);
+                        tabPixel[7] = input.getPixel(j,i+1);
+                        tabPixel[8] = input.getPixel(j+1,i+1);
+                        int numberInSet = 0;
+                        int numberOutSet = 0;
 
                         for (int a =0 ;a<tabPixel.length;a++){
-                            if (Color.rgb(Color.red(tabPixel[a]),Color.green(tabPixel[a]),Color.blue(tabPixel[a])) == whiteColor){
-                                numberWhite++;
-                            }else if (Color.rgb(Color.red(tabPixel[a]),Color.green(tabPixel[a]),Color.blue(tabPixel[a])) == blackColor){
-                                numberBlack++;
+                            if ((Color.red(tabPixel[a])>=LR && Color.green(tabPixel[a])>= LG && Color.blue(tabPixel[a])>= LB)
+                                && (Color.red(tabPixel[a])<=HR && Color.green(tabPixel[a])<= HG && Color.blue(tabPixel[a])<= HB)){
+                                numberInSet++;
+                            }else{
+                                numberOutSet++;
                             }
                         }
-                        Log.v("DONKEY", "white : "+ numberWhite+" black :"+numberBlack);
-
-                        if(numberWhite == 0){
+                        if(numberInSet == 0){
                             continue;
-                        }else if (numberBlack == 0){
+                        }else if (numberOutSet == 0){
                             outputWithMarker.setPixel(j, i, Color.rgb(0, 100, 0));
-                        }else if(numberBlack > 0 && numberWhite > 0){
+                        }else if(numberInSet > 0 && numberOutSet > 0){
                             outputWithMarker.setPixel(j,i,Color.rgb(50, 255, 0));
                         }
-
                     }
-                    publishProgress((int) ((i / (float) output.getHeight()) * 100));
+                    publishProgress((int) ((i / (float) input.getHeight()) * 100));
                 }
-
                 return outputWithMarker;
-
             }
         }
-
         MarkerClass markerClass = new MarkerClass();
         markerClass.execute();
     }
-
-
 }
