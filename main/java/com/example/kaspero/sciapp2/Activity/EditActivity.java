@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.kaspero.sciapp2.Class.AnroidLib;
 import com.example.kaspero.sciapp2.Class.LibOne;
 import com.example.kaspero.sciapp2.Options.Options;
 import com.example.kaspero.sciapp2.R;
@@ -314,7 +315,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 // TODO set up tolerant
                 break;
             case OTHER:
-
+                AnroidLib anroidLib = new AnroidLib(photo);
+                anroidLib.findColorBoof(intentPhoto,progresView);
                 break;
         }
     }
