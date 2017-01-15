@@ -220,6 +220,12 @@ public class OptionActivity extends AppCompatActivity {
                 break;
             case BOOF:
                 boof.setChecked(true);
+                View layout = findViewById(R.id.lowInput);
+                layout.setVisibility(View.INVISIBLE);
+
+                TextView label =(TextView) findViewById(R.id.lowRGBLabel);
+                label.setText("Wartosść RGB dla biblioteki BoofCV");
+
                 break;
             case OTHER:
                 other.setChecked(true);
@@ -242,6 +248,12 @@ public class OptionActivity extends AppCompatActivity {
                     boof.setChecked(false);
                     other.setChecked(false);
                     lib = Options.LibsComputerVision.OPENCV;
+                    View layout = findViewById(R.id.highLimiit);
+                    layout.setVisibility(View.VISIBLE);
+
+                    TextView label =(TextView) findViewById(R.id.lowRGBLabel);
+                    label.setText("Górna granica RGB");
+
                 }
             }
         });
@@ -253,6 +265,13 @@ public class OptionActivity extends AppCompatActivity {
                     openCV.setChecked(false);
                     other.setChecked(false);
                     lib = Options.LibsComputerVision.BOOF;
+                    View layout = findViewById(R.id.highLimiit);
+                    layout.setVisibility(View.INVISIBLE);
+
+                    TextView label =(TextView) findViewById(R.id.lowRGBLabel);
+                    label.setText("Wartość RGB");
+
+
                 }
             }
         });
@@ -264,6 +283,14 @@ public class OptionActivity extends AppCompatActivity {
                     openCV.setChecked(false);
                     boof.setChecked(false);
                     lib = Options.LibsComputerVision.OTHER;
+                    View layout = findViewById(R.id.highLimiit);
+                    layout.setVisibility(View.VISIBLE);
+
+                    TextView label =(TextView) findViewById(R.id.lowRGBLabel);
+                    label.setText("Górna granica RGB");
+
+
+
                 }
             }
         });
@@ -271,13 +298,47 @@ public class OptionActivity extends AppCompatActivity {
         saveBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                if (boof.isChecked()) {
+//
+//                    if (!rValueLow.getText().toString().isEmpty() &&
+//                            !gValueLow.getText().toString().isEmpty() &&
+//                            !bValueLow.getText().toString().isEmpty() &&
+//                            (openCV.isChecked() || boof.isChecked() || other.isChecked())
+//                            ) {
+//                        int RL, BL, GL;
+//                        RL = Integer.parseInt(rValueLow.getText().toString());
+//                        GL = Integer.parseInt(gValueLow.getText().toString());
+//                        BL = Integer.parseInt(bValueLow.getText().toString());
+//
+//                        if (RL <= 255 && GL <= 255 && BL <= 255) {
+//                            Options.getInstance().setLow_R(RL);
+//                            Options.getInstance().setLow_B(BL);
+//                            Options.getInstance().setLow_G(GL);
+//
+//                            Options.getInstance().setLibsComputerVision(lib);
+//
+//                            if (saveCheckBTN.isChecked()) {
+//                                Options.getInstance().setSaveBitmap(true);
+//                            } else {
+//                                Options.getInstance().setSaveBitmap(false);
+//                            }
+//                            // TODO DO SAVE INTO XML FILE
+//                            finish();
+//                        } else {
+//                            messageValidation("Wartość większa od 255!");
+//                        }
+//                    } else {
+//                        messageValidation("Jendo z pól nie jest wypełnione!");
+//                    }
+//                }else
+
                 if (!rValue.getText().toString().isEmpty() &&
                         !gValue.getText().toString().isEmpty() &&
                         !bValue.getText().toString().isEmpty() &&
                         !rValueLow.getText().toString().isEmpty() &&
                         !gValueLow.getText().toString().isEmpty() &&
                         !bValueLow.getText().toString().isEmpty() &&
-                        (openCV.isChecked() || boof.isChecked() || other.isChecked())
+                        (openCV.isChecked()  || other.isChecked())
                         ) {
                     int RH, GH, BH, RL, BL, GL;
                     RH = Integer.parseInt(rValue.getText().toString());

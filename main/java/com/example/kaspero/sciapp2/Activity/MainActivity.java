@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static android.app.Activity.RESULT_OK;
+
 
 public class MainActivity extends AppCompatActivity{
 
@@ -146,8 +148,6 @@ public class MainActivity extends AppCompatActivity{
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_container,newChoosePhotoFragment).addToBackStack(null).commit();
 
-
-
     }
 
     /**
@@ -160,4 +160,4 @@ public class MainActivity extends AppCompatActivity{
 
 
 }
-//TODO dwie biblioteki, O APLIKACJI,
+//TODO OPCJE dostosowac, dodanie opcji wyboru koloru, testowanie pod inne urządzenia,

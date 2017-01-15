@@ -176,7 +176,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 e.printStackTrace();
             }
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 4;
+            options.inSampleSize = 5;
             editPhoto = BitmapFactory.decodeStream(in, null, options);
             editPhoto2 =editPhoto;
             intentPhoto.setImageBitmap(editPhoto);
@@ -299,26 +299,32 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
      * RECOGNISE CV LIB [OPEN CV, ..., ...,]
      */
     public void searchRGB(Bitmap photo) {
+        optionButton.setEnabled(false);
+        searchButton.setEnabled(false);
+        infoButton.setEnabled(false);
+        loadButton.setEnabled(false);
+
         switch (Options.getInstance().getLibsComputerVision()) {
             case OPENCV:
                 if (!OpenCVLoader.initDebug()) {
-                    Log.d("OpenCV", "Internal OpenCV library not found. Using OpenCV Manager for initialization");
                     OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mLoaderCallback);
                 } else {
-                    Log.d("OpenCV", "OpenCV library found inside package. Using it!");
                     mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+
                 }
                 break;
             case BOOF:
                 LibOne libOne = new LibOne(photo);
-                libOne.findColorBoof(intentPhoto,progresView);
-                // TODO set up tolerant
+                libOne.findColorBoof(intentPhoto,progresView,optionButton,searchButton,infoButton,loadButton);
+
                 break;
             case OTHER:
                 AnroidLib anroidLib = new AnroidLib(photo);
-                anroidLib.findColorBoof(intentPhoto,progresView);
+                anroidLib.findColorBoof(intentPhoto,progresView,optionButton,searchButton,infoButton,loadButton);
                 break;
         }
+
+
     }
 
     /**
@@ -411,6 +417,10 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                             if(Options.getInstance().getSaveBitmap())
                                 ToolsCV.getInstance().saveImage(bitmap);
                             progresView.setVisibility(TextView.INVISIBLE);
+                            optionButton.setEnabled(true);
+                            searchButton.setEnabled(true);
+                            infoButton.setEnabled(true);
+                            loadButton.setEnabled(true);
                         }
                     }
                     new MarkerClass().execute(editPhoto);

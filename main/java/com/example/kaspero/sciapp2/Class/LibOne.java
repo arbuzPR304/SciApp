@@ -3,6 +3,7 @@ package com.example.kaspero.sciapp2.Class;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -65,7 +66,11 @@ public class LibOne {
      * CV TOOL IS BOOFCV
      *
      * */
-    public void findColorBoof(final ImageView inputPhoto,final TextView progressView){
+    public void findColorBoof(final ImageView inputPhoto, final TextView progressView,
+                              final Button button1,
+                              final Button button2,
+                              final Button button3,
+                              final Button button4){
 
         class MarkerClass extends AsyncTask<Void, Integer, Bitmap> {
 
@@ -93,6 +98,12 @@ public class LibOne {
                 if(Options.getInstance().getSaveBitmap())
                     ToolsCV.getInstance().saveImage(marker);
                 progressView.setVisibility(TextView.INVISIBLE);
+                button1.setEnabled(true);
+                button2.setEnabled(true);
+                button3.setEnabled(true);
+                button4.setEnabled(true);
+
+
             }
 
             @Override
