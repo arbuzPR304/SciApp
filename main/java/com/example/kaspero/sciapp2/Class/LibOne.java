@@ -44,23 +44,6 @@ public class LibOne {
     }
 
 
-    public Bitmap basicEdit(){
-
-        // Easiest way to convert a Bitmap into a BoofCV type
-        GrayU8 image = ConvertBitmap.bitmapToGray(bitmapedit, (GrayU8)null, null);
-        // If you are converting a sequence of images it is faster reuse a
-        // previously declare image and buffer
-        byte[] workBuffer = ConvertBitmap.declareStorage(bitmapedit, null);
-        ConvertBitmap.bitmapToGray(bitmapedit, image, workBuffer);
-        // Convert back into a Bitmap
-        ConvertBitmap.grayToBitmap(image, bitmapedit, workBuffer);
-        // another less efficient way
-        bitmapedit = ConvertBitmap.grayToBitmap(image, Bitmap.Config.ARGB_8888);
-        // Functions are also provided for multi-spectral images
-        Planar<GrayF32> color = ConvertBitmap.bitmapToMS(bitmapedit, null, GrayF32.class, null);
-        return bitmapedit;
-    }
-
     /**
      * FUNCTION FIND COLOR ON BITMAP AND SHOW MARKER
      * CV TOOL IS BOOFCV
@@ -119,11 +102,11 @@ public class LibOne {
                 publishProgress(1);
                 //TODO SET UP IN OPTIONS TOLERANT VALUE
 
-                float tolerant = 0.2f;
+                float tolerant = 0.4f;
 
                 /**GET OPTION INPUT CONVERT RGB TO HSV*/
                 float [] hsv = new float[3];
-                ColorHsv.rgbToHsv(Options.getInstance().getHigh_R(),Options.getInstance().getHigh_G(),Options.getInstance().getHigh_B(), hsv);
+                ColorHsv.rgbToHsv(Options.getInstance().getLow_R(),Options.getInstance().getLow_G(),Options.getInstance().getLow_B(), hsv);
                 publishProgress(2);
 
                 /**MAKE PLANAR OBJECT FROM (@param bitmapedit) AND hsvBitmap SI*/

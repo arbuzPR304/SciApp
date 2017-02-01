@@ -220,7 +220,7 @@ public class OptionActivity extends AppCompatActivity {
                 break;
             case BOOF:
                 boof.setChecked(true);
-                View layout = findViewById(R.id.lowInput);
+                View layout = findViewById(R.id.highLimiit);
                 layout.setVisibility(View.INVISIBLE);
 
                 TextView label =(TextView) findViewById(R.id.lowRGBLabel);
@@ -252,7 +252,7 @@ public class OptionActivity extends AppCompatActivity {
                     layout.setVisibility(View.VISIBLE);
 
                     TextView label =(TextView) findViewById(R.id.lowRGBLabel);
-                    label.setText("Górna granica RGB");
+                    label.setText("Dolna granica RGB");
 
                 }
             }
@@ -287,7 +287,7 @@ public class OptionActivity extends AppCompatActivity {
                     layout.setVisibility(View.VISIBLE);
 
                     TextView label =(TextView) findViewById(R.id.lowRGBLabel);
-                    label.setText("Górna granica RGB");
+                    label.setText("Dolna granica RGB");
 
 
 
@@ -298,82 +298,81 @@ public class OptionActivity extends AppCompatActivity {
         saveBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (boof.isChecked()) {
-//
-//                    if (!rValueLow.getText().toString().isEmpty() &&
-//                            !gValueLow.getText().toString().isEmpty() &&
-//                            !bValueLow.getText().toString().isEmpty() &&
-//                            (openCV.isChecked() || boof.isChecked() || other.isChecked())
-//                            ) {
-//                        int RL, BL, GL;
-//                        RL = Integer.parseInt(rValueLow.getText().toString());
-//                        GL = Integer.parseInt(gValueLow.getText().toString());
-//                        BL = Integer.parseInt(bValueLow.getText().toString());
-//
-//                        if (RL <= 255 && GL <= 255 && BL <= 255) {
-//                            Options.getInstance().setLow_R(RL);
-//                            Options.getInstance().setLow_B(BL);
-//                            Options.getInstance().setLow_G(GL);
-//
-//                            Options.getInstance().setLibsComputerVision(lib);
-//
-//                            if (saveCheckBTN.isChecked()) {
-//                                Options.getInstance().setSaveBitmap(true);
-//                            } else {
-//                                Options.getInstance().setSaveBitmap(false);
-//                            }
-//                            // TODO DO SAVE INTO XML FILE
-//                            finish();
-//                        } else {
-//                            messageValidation("Wartość większa od 255!");
-//                        }
-//                    } else {
-//                        messageValidation("Jendo z pól nie jest wypełnione!");
-//                    }
-//                }else
+                if (boof.isChecked()) {
 
-                if (!rValue.getText().toString().isEmpty() &&
-                        !gValue.getText().toString().isEmpty() &&
-                        !bValue.getText().toString().isEmpty() &&
-                        !rValueLow.getText().toString().isEmpty() &&
-                        !gValueLow.getText().toString().isEmpty() &&
-                        !bValueLow.getText().toString().isEmpty() &&
-                        (openCV.isChecked()  || other.isChecked())
-                        ) {
-                    int RH, GH, BH, RL, BL, GL;
-                    RH = Integer.parseInt(rValue.getText().toString());
-                    GH = Integer.parseInt(gValue.getText().toString());
-                    BH = Integer.parseInt(bValue.getText().toString());
-                    RL = Integer.parseInt(rValueLow.getText().toString());
-                    GL = Integer.parseInt(gValueLow.getText().toString());
-                    BL = Integer.parseInt(bValueLow.getText().toString());
+                    if (    !rValueLow.getText().toString().isEmpty() &&
+                            !gValueLow.getText().toString().isEmpty() &&
+                            !bValueLow.getText().toString().isEmpty()
+                        )
+                    {
+                        int RL, BL, GL;
+                        RL = Integer.parseInt(rValueLow.getText().toString());
+                        GL = Integer.parseInt(gValueLow.getText().toString());
+                        BL = Integer.parseInt(bValueLow.getText().toString());
 
-                    if (RH >= RL && GH >= GL && BH >= BL) {
-                        if (RH <= 255 && GH <= 255 && BH <= 255) {
-                            Options.getInstance().setHigh_R(RH);
-                            Options.getInstance().setHigh_G(GH);
-                            Options.getInstance().setHigh_B(BH);
+                        if (RL <= 255 && GL <= 255 && BL <= 255) {
                             Options.getInstance().setLow_R(RL);
                             Options.getInstance().setLow_B(BL);
                             Options.getInstance().setLow_G(GL);
-
-                            Options.getInstance().setLibsComputerVision(lib);
+                            Options.getInstance().setLibsComputerVision(Options.LibsComputerVision.BOOF);
 
                             if (saveCheckBTN.isChecked()) {
                                 Options.getInstance().setSaveBitmap(true);
                             } else {
                                 Options.getInstance().setSaveBitmap(false);
                             }
-                            // TODO DO SAVE INTO XML FILE
+
                             finish();
                         } else {
                             messageValidation("Wartość większa od 255!");
                         }
                     } else {
-                        messageValidation("Próg dolny jest więszy od progu górnego!");
+                        messageValidation("Jendo z pól nie jest wypełnione!");
                     }
                 } else {
-                    messageValidation("Jendo z pól nie jest wypełnione!");
+                    if (!rValue.getText().toString().isEmpty() &&
+                            !gValue.getText().toString().isEmpty() &&
+                            !bValue.getText().toString().isEmpty() &&
+                            !rValueLow.getText().toString().isEmpty() &&
+                            !gValueLow.getText().toString().isEmpty() &&
+                            !bValueLow.getText().toString().isEmpty() &&
+                            (openCV.isChecked() || other.isChecked())
+                            ) {
+                        int RH, GH, BH, RL, BL, GL;
+                        RH = Integer.parseInt(rValue.getText().toString());
+                        GH = Integer.parseInt(gValue.getText().toString());
+                        BH = Integer.parseInt(bValue.getText().toString());
+                        RL = Integer.parseInt(rValueLow.getText().toString());
+                        GL = Integer.parseInt(gValueLow.getText().toString());
+                        BL = Integer.parseInt(bValueLow.getText().toString());
+
+                        if (RH >= RL && GH >= GL && BH >= BL) {
+                            if (RH <= 255 && GH <= 255 && BH <= 255) {
+                                Options.getInstance().setHigh_R(RH);
+                                Options.getInstance().setHigh_G(GH);
+                                Options.getInstance().setHigh_B(BH);
+                                Options.getInstance().setLow_R(RL);
+                                Options.getInstance().setLow_B(BL);
+                                Options.getInstance().setLow_G(GL);
+
+                                Options.getInstance().setLibsComputerVision(lib);
+
+                                if (saveCheckBTN.isChecked()) {
+                                    Options.getInstance().setSaveBitmap(true);
+                                } else {
+                                    Options.getInstance().setSaveBitmap(false);
+                                }
+                                // TODO DO SAVE INTO XML FILE
+                                finish();
+                            } else {
+                                messageValidation("Wartość większa od 255!");
+                            }
+                        } else {
+                            messageValidation("Próg dolny jest więszy od progu górnego!");
+                        }
+                    } else {
+                        messageValidation("Jendo z pól nie jest wypełnione!");
+                    }
                 }
             }
         });

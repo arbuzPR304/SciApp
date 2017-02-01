@@ -160,4 +160,4 @@ public class MainActivity extends AppCompatActivity{
 
 
 }
-//TODO OPCJE dostosowac, dodanie opcji wyboru koloru, testowanie pod inne urządzenia,
+//TODO OPCJE  dodanie opcji wyboru koloru, testowanie pod inne urządzenia,
