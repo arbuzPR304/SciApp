@@ -1,0 +1,111 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.kaspero.sciapp2.Activity.MainActivity"
+    android:background="@drawable/hero_bg_gradient">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:layout_marginBottom="200dp"
+        android:layout_marginTop="50dp"
+        android:weightSum="5">
+
+
+        <TextView
+            android:text="CO ODCZYTAĆ  DLA CIEBIE?"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:textAlignment="center"
+            android:textSize="36sp"
+            android:layout_margin="5dp"
+            android:textStyle="normal|bold"
+            android:textColor="#FAC740"
+            android:layout_weight="0.5" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/atomic"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <Button
+            android:text="WYBIERZ ZDJĘCIE"
+            android:id="@+id/chooseBtn"
+            android:background="@drawable/herro_button"
+            android:layout_gravity="center"
+            android:textColor="#FAC740"
+            android:drawableLeft="@drawable/item_not_selected"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/item_not_selected"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="0.5"
+            android:textSize="30sp" />
+
+
+        <Button
+            android:text="OPCJE"
+            android:id="@+id/settingsBtn"
+            android:background="@drawable/herro_button"
+            android:layout_gravity="center"
+            android:textColor="#FAC740"
+            android:drawableLeft="@drawable/item_not_selected"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/item_not_selected"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="0.5"
+            android:textSize="30sp" />
+
+
+        <Button
+            android:text="WYJŚCIE"
+            android:id="@+id/exitBtn"
+            android:background="@drawable/herro_button"
+            android:layout_gravity="center"
+            android:textColor="#FAC740"
+            android:drawableLeft="@drawable/item_not_selected"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/item_not_selected"
+            android:layout_marginBottom="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="0.5"
+            android:textSize="30sp" />
+
+
+    </LinearLayout>
+
+</FrameLayout>

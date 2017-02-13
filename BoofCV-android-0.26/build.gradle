@@ -1,0 +1,35 @@
+apply plugin: 'com.android.application'
+
+buildscript {
+
+    repositories {
+
+        jcenter()
+
+    }
+
+    dependencies {
+
+        classpath 'com.android.tools.build:gradle:1.2.3'
+
+    }
+
+}
+
+allprojects {
+
+    repositories {
+
+        jcenter()
+
+    }
+
+}
+
+dependencies {
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+}
+
+android android-studio android-gradle boofcv

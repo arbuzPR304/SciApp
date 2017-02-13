@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Option>
+    <HighR>120</HighR>
+    <HighG>120</HighG>
+    <HighB>120</HighB>
+
+    <LowR>100</LowR>
+    <LowG>100</LowG>
+    <LowB>100</LowB>
+    <LibsComputerVision>OPENCV</LibsComputerVision>
+    <SaveBitmap>false</SaveBitmap>
+
+</Option>

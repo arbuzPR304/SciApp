@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">SciApp</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="title_activity_edit">Edycja</string>
+    <string name="edit_button_option">OPCJE</string>
+    <string name="edit_button_info">POWRÓT</string>
+    <string name="edit_button_search">SZUKAJ</string>
+    <string name="edit_button_load">WCZYTAJ</string>
+
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+
+    <string name="title_activity_color_pick">ColorPickActivity</string>
+</resources>

@@ -1,0 +1,105 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    tools:context="com.example.kaspero.sciapp2.Activity.EditActivity">
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+    <TextView
+        android:id="@+id/fullscreen_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:keepScreenOn="true"
+        android:textColor="#33b5e5"
+        android:textSize="50sp"
+        android:textStyle="bold" />
+
+    <!-- This FrameLayout insets its children based on system windows using
+         android:fitsSystemWindows. -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/intentPhoto"
+        android:padding="0dp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <TextView
+            android:text="10%"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/progresView"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/colorAccent"
+            android:textSize="50sp"
+            android:textStyle="normal|bold"
+            android:textAlignment="center"
+            android:paddingTop="250dp" />
+
+        <LinearLayout
+            android:id="@+id/fullscreen_content_controls"
+            style="?metaButtonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:background="@color/black_overlay"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent"
+            android:weightSum="4">
+
+            <Button
+                android:text="@string/edit_button_option"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/optionBtn"
+                android:layout_weight="1"
+                android:background="@drawable/herro_button"
+                android:textColor="#FAC740"
+                android:layout_margin="3dp"/>
+
+            <Button
+                android:text="@string/edit_button_load"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/loadBtn"
+                android:layout_weight="1"
+                android:background="@drawable/herro_button"
+                android:textColor="#FAC740"
+                android:layout_margin="3dp"/>
+
+            <Button
+                android:id="@+id/searchBtn"
+                style="?metaButtonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/edit_button_search"
+                android:background="@drawable/herro_button"
+                android:textColor="#FAC740"
+                android:layout_margin="3dp"/>
+
+            <Button
+                android:text="@string/edit_button_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/infoBtn"
+                android:layout_weight="1"
+                android:background="@drawable/herro_button"
+                android:textColor="#FAC740"
+                android:layout_margin="3dp"/>
+
+
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</FrameLayout>
